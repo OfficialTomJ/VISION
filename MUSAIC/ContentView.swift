@@ -9,9 +9,18 @@ import SwiftUI
 
 var thoughtsArray: [String] = []
 
+var prompts: [String] = [
+    "What inspired you today?",
+    "What little win did you experience?",
+    "Prompt 3",
+    "Prompt 4",
+    "Prompt 5"
+]
+
 struct ContentView: View {
 
     @State private var text: String = ""
+    @State private var prompt: String = "What Inspired you today?"
     
     var body: some View {
         ZStack(alignment: .top){
@@ -34,12 +43,15 @@ struct ContentView: View {
                                 .foregroundColor(Color.white)
                                 .multilineTextAlignment(.leading)))
                 HStack(){
-                    Text("What Inspired you today?")
+                    Text(prompt)
                         .font(.title2)
                         .foregroundColor(Color.white)
-                    Button(action: {}) {
+                    Button(action: {
+                        shuffleThought(prompt: $prompt)
+                    }) {
                         Image("Reload")
                     }
+
                 }.padding(.top, 300.0)
                 HStack {
                     TextField("Enter thoughts", text: $text)
@@ -59,6 +71,16 @@ struct ContentView: View {
         }
     }
 }
+
+func shuffleThought(prompt: Binding<String>) {
+    var newPrompt = prompt.wrappedValue
+    while newPrompt == prompt.wrappedValue {
+        prompts.shuffle()
+        newPrompt = prompts.first ?? ""
+    }
+    prompt.wrappedValue = newPrompt
+}
+
 
 func addThought(text: String) {
     if (!text.isEmpty) {
