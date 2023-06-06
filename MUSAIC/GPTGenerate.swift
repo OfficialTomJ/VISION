@@ -7,10 +7,9 @@
 
 import Foundation
 
-func generateGPT(completion: @escaping (Result<String, Error>) -> Void) {
+func generateGPT(prompt: String, completion: @escaping (Result<String, Error>) -> Void) {
     let apiKey = "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"
     let endpoint = "https://api.openai.com/v1/engines/text-davinci-002/completions"
-    let prompt = "Create a cool poem for me!"
     let parameters: [String: Any] = [
         "prompt": prompt,
         "max_tokens": 50
