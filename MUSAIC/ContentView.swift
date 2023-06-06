@@ -47,7 +47,9 @@ struct ContentView: View {
                         .padding()
                         .frame(width: 330)
                         .opacity(0.5)
-                    Button(action: {}) {
+                    Button(action: {
+                        addThought(text: self.text)
+                    }) {
                         Image("Send")
                     }
                 }
@@ -58,9 +60,10 @@ struct ContentView: View {
     }
 }
 
-func addThought() {
-    var inputVal = "";
-    thoughtsArray.append(inputVal)
+func addThought(text: String) {
+    if (!text.isEmpty) {
+        thoughtsArray.append(text)
+    }
 }
 
 func GPT() {
