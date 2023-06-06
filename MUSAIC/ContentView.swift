@@ -17,6 +17,9 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
+            Button(/*@START_MENU_TOKEN@*/"Button"/*@END_MENU_TOKEN@*/) {
+                GPT()
+            }
         }
         .padding()
     }
@@ -25,6 +28,20 @@ struct ContentView: View {
 func addThought() {
     var inputVal = "";
     thoughtsArray.append(inputVal)
+}
+
+func GPT() {
+    generateGPT { (result) in
+        switch result {
+        case .success(let poem):
+            print("Generated: \(poem)")
+            // Update your UI or perform any other actions with the generated poem
+        case .failure(let error):
+            print("Error generating: \(error.localizedDescription)")
+            // Handle the error gracefully
+        }
+    }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
