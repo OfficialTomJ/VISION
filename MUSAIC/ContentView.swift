@@ -7,7 +7,10 @@
 
 import SwiftUI
 
+var thoughtsArray: [String] = []
+
 struct ContentView: View {
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -17,6 +20,11 @@ struct ContentView: View {
         }
         .padding()
     }
+}
+
+func addThought() {
+    var inputVal = "";
+    thoughtsArray.append(inputVal)
 }
 
 struct ContentView_Previews: PreviewProvider {
