@@ -38,6 +38,7 @@
 		46437A472A29BF280009C0D7 /* FirebaseInAppMessagingSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A462A29BF280009C0D7 /* FirebaseInAppMessagingSwift-Beta */; };
 		46437A492A29BF280009C0D7 /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A482A29BF280009C0D7 /* FirebaseInstallations */; };
 		46437A4B2A29BF280009C0D7 /* FirebaseMLModelDownloader in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A4A2A29BF280009C0D7 /* FirebaseMLModelDownloader */; };
+		466D0B8B2A2EC69A00BB260A /* GPTGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466D0B8A2A2EC69A00BB260A /* GPTGenerate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		46437A0E2A29B6D20009C0D7 /* MUSAICUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICUITests.swift; sourceTree = "<group>"; };
 		46437A102A29B6D20009C0D7 /* MUSAICUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		46437A1D2A29BE660009C0D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		466D0B8A2A2EC69A00BB260A /* GPTGenerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTGenerate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 			children = (
 				464379F32A29B6D10009C0D7 /* MUSAICApp.swift */,
 				464379F52A29B6D10009C0D7 /* ContentView.swift */,
+				466D0B8A2A2EC69A00BB260A /* GPTGenerate.swift */,
 				464379F72A29B6D20009C0D7 /* Assets.xcassets */,
 				46437A1D2A29BE660009C0D7 /* GoogleService-Info.plist */,
 				464379F92A29B6D20009C0D7 /* Preview Content */,
@@ -334,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				464379F62A29B6D10009C0D7 /* ContentView.swift in Sources */,
+				466D0B8B2A2EC69A00BB260A /* GPTGenerate.swift in Sources */,
 				464379F42A29B6D10009C0D7 /* MUSAICApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

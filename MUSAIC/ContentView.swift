@@ -7,7 +7,10 @@
 
 import SwiftUI
 
+var thoughtsArray: [String] = []
+
 struct ContentView: View {
+
     @State private var text: String = ""
     
     var body: some View {
@@ -53,6 +56,25 @@ struct ContentView: View {
             
         }
     }
+}
+
+func addThought() {
+    var inputVal = "";
+    thoughtsArray.append(inputVal)
+}
+
+func GPT() {
+    generateGPT { (result) in
+        switch result {
+        case .success(let poem):
+            print("Generated: \(poem)")
+            // Update your UI or perform any other actions with the generated poem
+        case .failure(let error):
+            print("Error generating: \(error.localizedDescription)")
+            // Handle the error gracefully
+        }
+    }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
