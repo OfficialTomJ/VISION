@@ -14,9 +14,6 @@
 		46437A052A29B6D20009C0D7 /* MUSAICTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46437A042A29B6D20009C0D7 /* MUSAICTests.swift */; };
 		46437A0F2A29B6D20009C0D7 /* MUSAICUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46437A0E2A29B6D20009C0D7 /* MUSAICUITests.swift */; };
 		46437A112A29B6D20009C0D7 /* MUSAICUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46437A102A29B6D20009C0D7 /* MUSAICUITestsLaunchTests.swift */; };
-		46437A1E2A29BE660009C0D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46437A1D2A29BE660009C0D7 /* GoogleService-Info.plist */; };
-		46437A1F2A29BE660009C0D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46437A1D2A29BE660009C0D7 /* GoogleService-Info.plist */; };
-		46437A202A29BE660009C0D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46437A1D2A29BE660009C0D7 /* GoogleService-Info.plist */; };
 		46437A232A29BF280009C0D7 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A222A29BF280009C0D7 /* FirebaseAnalytics */; };
 		46437A252A29BF280009C0D7 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A242A29BF280009C0D7 /* FirebaseAnalyticsOnDeviceConversion */; };
 		46437A272A29BF280009C0D7 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A262A29BF280009C0D7 /* FirebaseAnalyticsSwift */; };
@@ -146,7 +143,7 @@
 				464379F52A29B6D10009C0D7 /* ContentView.swift */,
 				466D0B8A2A2EC69A00BB260A /* GPTGenerate.swift */,
 				464379F72A29B6D20009C0D7 /* Assets.xcassets */,
-				46437A1D2A29BE660009C0D7 /* GoogleService-Info.plist */,
+				61C9C2C72A2EC3240082E104 /* GoogleService-Info.plist */,
 				464379F92A29B6D20009C0D7 /* Preview Content */,
 			);
 			path = MUSAIC;
@@ -308,8 +305,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				464379FB2A29B6D20009C0D7 /* Preview Assets.xcassets in Resources */,
+				61C9C2C82A2EC3240082E104 /* GoogleService-Info.plist in Resources */,
 				464379F82A29B6D20009C0D7 /* Assets.xcassets in Resources */,
-				46437A1E2A29BE660009C0D7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,7 +314,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46437A1F2A29BE660009C0D7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,7 +321,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46437A202A29BE660009C0D7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
