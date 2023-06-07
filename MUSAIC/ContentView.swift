@@ -10,9 +10,9 @@ import SwiftUI
 var prompts: [String] = [
     "What inspired you today?",
     "What little win did you experience?",
-    "Prompt 3",
-    "Prompt 4",
-    "Prompt 5"
+    "What unexpected discovery brought you joy today?",
+    "What goal did you accomplish that made you proud?",
+    "What piece of advice motivated you today?"
 ]
 
 struct ContentView: View {
@@ -91,7 +91,7 @@ struct ContentView: View {
 }
 
 func GPT() {
-    generateGPT { (result) in
+    generateGPT(prompt: ""){ (result) in
         switch result {
         case .success(let poem):
             print("Generated: \(poem)")
