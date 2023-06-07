@@ -13,7 +13,7 @@ struct GeneratedView: View {
     
     var body: some View {
         ZStack(alignment: .top){
-            Image("Blur")
+            Image("Background")
                 .resizable()
                 .frame(width: 450,height: 1000)
                 .ignoresSafeArea()
@@ -50,21 +50,11 @@ struct GeneratedView: View {
                         }
                        
                         VStack(alignment: .leading) {
-                            Text("Vibrant Transitions")
+                            Text(title)
                                 .font(.title)
                                 .foregroundColor(Color.white)
                                 .padding(.bottom, 2.0)
-                            Text("Sunset Dreams")
-                                .font(.title3)
-                                    .foregroundColor(Color.white)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.bottom, 2.0)
-                            Text("Elysian Fields")
-                                .font(.title3)
-                                    .foregroundColor(Color.white)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.bottom, 2.0)
-                            Text("Embrace the Colors of Life")
+                            Text(caption)
                                 .font(.subheadline)
                                 .foregroundColor(Color.white)
                                 .multilineTextAlignment(.center)
@@ -73,7 +63,7 @@ struct GeneratedView: View {
                         }
                     }
                    
-                    Text("Description: Immerse yourself in the soothing melodies and dreamy atmospheres of Sunset Dreams. This album will transport you to a state of tranquility, perfect for unwinding after a busy day.")
+                    Text(shortReflection)
                         .font(.body)
                         .foregroundColor(Color.white)
                         .padding([.leading, .trailing], 40.0)
@@ -83,24 +73,19 @@ struct GeneratedView: View {
                             .padding()
                             .frame(width: 80, height: 90)
                         VStack(alignment: .leading) {
-                            Text("Mindful Mornings")
+                            Text("LIST OF SONGS WITH SPOTIFY LINK HERE")
                                 .font(.title)
                                 .foregroundColor(Color.white)
                                 .padding(.bottom, 2.0)
                         }
                     }
                     Group {
-                        Text("Description: Start your day with mindfulness exercises to cultivate a sense of presence and clarity. Engage in activities like meditation or journaling to set a positive tone for the day ahead.")
-                            .font(.body)
-                                .foregroundColor(Color.white)
-                                .multilineTextAlignment(.leading)
-                                .padding([.leading, .trailing], 40)
                        
-                        Text("Reflection")
+                        Text(mindRecom)
                             .font(.title)
                             .foregroundColor(Color.white)
                             .padding(.vertical, 10.0)
-                        Text("Vibrant Transitions is a musical journey that encapsulates the spectrum of emotions experienced during everyday adventures. Each track represents a unique moment of discovery, from the exhilarating taste of a latte to the fleeting encounter with a red Ferrari. This album aims to evoke a sense of wonder and encourage listeners to embrace the vibrancy of life.")
+                        Text(mindDescRecom)
                             .font(.body)
                             .foregroundColor(Color.white)
                             .padding([.leading, .trailing], 40.0)
@@ -111,8 +96,9 @@ struct GeneratedView: View {
                             .padding(.vertical, 2.0)
                     }
                     Group {
-                        Text("Elysian Fields")
-                        Text("Embrace the Colors of Life")
+                        ForEach(goals, id: \.self) { goal in
+                                        Text(goal)
+                                    }
                     }.font(.headline)
                         .foregroundColor(Color.white)
                         .multilineTextAlignment(.leading)
@@ -136,6 +122,24 @@ struct GeneratedView: View {
             
         }
     }
+}
+
+
+var title = "Vibrant Transitions"
+var caption = "Embrace the Colors of Life"
+var shortReflection = "Vibrant Transitions is a musical journey that encapsulates the spectrum of emotions experienced during everyday adventures. Each track represents a unique moment of discovery, from the exhilarating taste of a latte to the fleeting encounter with a red Ferrari. This album aims to evoke a sense of wonder and encourage listeners to embrace the vibrancy of life."
+
+var mindRecom = "Mindful Mornings"
+var mindDescRecom = "Start your day with mindfulness exercises to cultivate a sense of presence and clarity. Engage in activities like meditation or journaling to set a positive tone for the day ahead."
+
+
+
+var goals:[String] = ["Practice guitar solos for the Friday band rehearsal.", "Initiate a conversation with another classmate to expand social connections."]
+
+
+
+func loadAlbum() {
+    
 }
 
 struct GeneratedView_Previews: PreviewProvider {
