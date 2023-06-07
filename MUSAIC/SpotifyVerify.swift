@@ -10,6 +10,7 @@ import SpotifyWebAPI
 import Combine
 
 struct SpotifyVerify: View {
+    
     var body: some View {
         VStack {
             Button(action: verifySpotify) {
@@ -19,84 +20,43 @@ struct SpotifyVerify: View {
                 Text("Get Random Song")
             }
         }
-            .onOpenURL { incomingURL in
-                                    print("App was opened via URL: \(incomingURL)")
-                                    handleIncomingURL(incomingURL)
-                                }
     }
     
 }
 
 let spotify = SpotifyAPI(
-    authorizationManager: AuthorizationCodeFlowPKCEManager(
-        clientId: "a5d89a0d332b46a1bd4fefe100f6c7b5"
+    authorizationManager: ClientCredentialsFlowManager(
+        clientId: "a5d89a0d332b46a1bd4fefe100f6c7b5", clientSecret: "5638f5c318d3451aa00bcd9cce9592ce"
     )
 )
-var codeVerifier: String = ""
-var codeChallenge: String = ""
-var state: String = ""
+
+private var cancellables = Set<AnyCancellable>()
 
 func verifySpotify() {
-    generateCodeVerifierAndChallenge()
-}
-    
-func generateCodeVerifierAndChallenge() {
-    codeVerifier = String.randomURLSafe(length: 128)
-    codeChallenge = String.makeCodeChallenge(codeVerifier: codeVerifier)
-    state = String.randomURLSafe(length: 128)
-    
-    let authorizationURL = spotify.authorizationManager.makeAuthorizationURL(
-        redirectURI: URL(string: "MUSAIC://spotify")!,
-        codeChallenge: codeChallenge,
-        state: state,
-        scopes: [
-            .playlistModifyPrivate,
-            .userModifyPlaybackState,
-            .playlistReadCollaborative,
-            .userReadPlaybackPosition
-        ]
-    )!
-    if let urlScheme = URL(string: authorizationURL.absoluteString) {
-        UIApplication.shared.open(authorizationURL)
-    }
-}
-
-private func handleIncomingURL(_ url: URL) {
-    var cancellables = Set<AnyCancellable>()
-    
-    guard url.scheme == "spotify" else {
-        // Request and access Spotify refresh tokens
-        spotify.authorizationManager.requestAccessAndRefreshTokens(
-            redirectURIWithQuery: url,
-            // Must match the code verifier that was used to generate the
-            // code challenge when creating the authorization URL.
-            codeVerifier: codeVerifier,
-            // Must match the value used when creating the authorization URL.
-            state: state
-        )
+    spotify.authorizationManager.authorize()
         .sink(receiveCompletion: { completion in
             switch completion {
-            case .finished:
-                print("Successfully authorized")
-            case .failure(let error):
-                if let authError = error as? SpotifyAuthorizationError, authError.accessWasDenied {
-                    print("The user denied the authorization request")
-                }
-                else {
-                    print("Couldn't authorize application: \(error)")
-                }
+                case .finished:
+                    print("successfully authorized application")
+                case .failure(let error):
+                    print("could not authorize application: \(error)")
             }
         })
         .store(in: &cancellables)
-        
-        print("Requesting access and refresh tokens...")
-        return
-    }
+}
 
-    }
 
 func randomSong() {
-    
+    spotify.search(query: "Pink Floyd", categories: [.track])
+        .sink(
+            receiveCompletion: { completion in
+                print(completion)
+            },
+            receiveValue: { results in
+                print(results)
+            }
+        )
+        .store(in: &cancellables)
 }
 
 
