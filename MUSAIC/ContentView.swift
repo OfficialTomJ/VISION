@@ -67,16 +67,13 @@ struct ContentView: View {
                         Image("Send")
                     }
                 }
-                
             }.padding(.top, 50.0)
-            
         }
     }
     
     func addThought() {
         if (!text.isEmpty) {
             thoughtsArray.append(text)
-            print(thoughtsArray)
         }
     }
     
@@ -91,14 +88,12 @@ struct ContentView: View {
 }
 
 func GPT() {
-    generateGPT { (result) in
+    generateGPT(prompt: "Tell me a funny joke!") { (result) in
         switch result {
-        case .success(let poem):
-            print("Generated: \(poem)")
-            // Update your UI or perform any other actions with the generated poem
+        case .success(let text):
+            print("Generated: \(text)")
         case .failure(let error):
             print("Error generating: \(error.localizedDescription)")
-            // Handle the error gracefully
         }
     }
 
@@ -108,4 +103,5 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
+        
 }
