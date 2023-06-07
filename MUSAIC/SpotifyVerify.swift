@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SpotifyWebAPI
+import Combine
 
 struct SpotifyVerify: View {
     var body: some View {
@@ -56,8 +57,32 @@ func generateCodeVerifierAndChallenge() {
 }
 
 private func handleIncomingURL(_ url: URL) {
+    var cancellables = Set<AnyCancellable>()
+    
     guard url.scheme == "spotify" else {
         //Request and access Spotify refresh tokens
+        spotify.authorizationManager.requestAccessAndRefreshTokens(
+            redirectURIWithQuery: url,
+            // Must match the code verifier that was used to generate the
+            // code challenge when creating the authorization URL.
+            codeVerifier: codeVerifier,
+            // Must match the value used when creating the authorization URL.
+            state: state
+        )
+        .sink(receiveCompletion: { completion in
+            switch completion {
+                case .finished:
+                    print("successfully authorized")
+                case .failure(let error):
+                    if let authError = error as? SpotifyAuthorizationError, authError.accessWasDenied {
+                        print("The user denied the authorization request")
+                    }
+                    else {
+                        print("couldn't authorize application: \(error)")
+                    }
+            }
+        })
+        .store(in: &cancellables)
         return
         }
     }
