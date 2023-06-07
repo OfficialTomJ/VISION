@@ -11,8 +11,13 @@ import Combine
 
 struct SpotifyVerify: View {
     var body: some View {
-        Button(action: verifySpotify) {
-            Text("Verify Spotify")
+        VStack {
+            Button(action: verifySpotify) {
+                Text("Verify Spotify")
+            }
+            Button(action: randomSong) {
+                Text("Get Random Song")
+            }
         }
             .onOpenURL { incomingURL in
                                     print("App was opened via URL: \(incomingURL)")
@@ -89,6 +94,11 @@ private func handleIncomingURL(_ url: URL) {
     }
 
     }
+
+func randomSong() {
+    
+}
+
 
 
 
