@@ -18,8 +18,10 @@ var prompts: [String] = [
 struct ContentView: View {
 
     @State private var text: String = ""
+    @State private var speed = 0.0
     @State private var prompt: String = "What Inspired you today?"
     @State private var thoughtsArray: [String] = []
+    @State private var isToggled: Bool = false
     var progressCounter: Int {
             thoughtsArray.count
         }
@@ -51,10 +53,12 @@ struct ContentView: View {
                     Button(action: {
                         shuffleThought(prompt: $prompt)
                     }) {
-                        Image("Reload")
+                        Image("regen").resizable()
+                            .foregroundColor(Color.white)
+                            .frame(width: 20,height: 20)
                     }
 
-                }.padding(.top, 300.0)
+                }.padding(.top, 240.0)
                 HStack {
                     TextField("Enter thoughts", text: $text)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -64,9 +68,37 @@ struct ContentView: View {
                     Button(action: {
                         addThought()
                     }) {
-                        Image("Send")
+                        Image("Send").resizable()
+                            .foregroundColor(Color.white)
+                            .frame(width: 25,height: 25)
                     }
                 }
+                ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.white)
+                                .frame(width: 150, height: 20)
+                                .opacity(0.6)
+                            
+                            Slider(
+                                value: $speed,
+                                in: 0...100,
+                                onEditingChanged: { editingChanged in
+                                    if speed == 100 && !editingChanged {
+                                        NavigatetoGeneratedView()
+                                    }}
+                            )
+                            .accentColor(Color(hue: 1.0, saturation: 1.0, brightness: 1.0, opacity: 0))
+                            .frame(width: 150)
+                    
+                        }
+                        .padding()
+                Text("Slide to generate")
+                    .font(.title3)
+                        .foregroundColor(Color.white)
+                        .opacity(0.8)
+                Text("Or keep going")
+                    .font(.caption)
+                    .foregroundColor(Color.white)
                 
             }.padding(.top, 50.0)
             
@@ -77,8 +109,12 @@ struct ContentView: View {
         if (!text.isEmpty) {
             thoughtsArray.append(text)
             print(thoughtsArray)
+            text = ""
         }
+        
     }
+    
+    
     
     func shuffleThought(prompt: Binding<String>) {
         var newPrompt = prompt.wrappedValue
@@ -88,10 +124,13 @@ struct ContentView: View {
         }
         prompt.wrappedValue = newPrompt
     }
+    
+    func NavigatetoGeneratedView(){}
+    
 }
 
 func GPT() {
-    generateGPT { (result) in
+    generateGPT(prompt: "o") { (result) in
         switch result {
         case .success(let poem):
             print("Generated: \(poem)")
@@ -103,6 +142,7 @@ func GPT() {
     }
 
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
