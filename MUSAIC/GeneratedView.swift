@@ -50,11 +50,11 @@ struct GeneratedView: View {
                         }
                        
                         VStack(alignment: .leading) {
-                            Text(title)
+                            Text(album.title)
                                 .font(.title)
                                 .foregroundColor(Color.white)
                                 .padding(.bottom, 2.0)
-                            Text(caption)
+                            Text(album.caption)
                                 .font(.subheadline)
                                 .foregroundColor(Color.white)
                                 .multilineTextAlignment(.center)
@@ -63,7 +63,7 @@ struct GeneratedView: View {
                         }
                     }
                    
-                    Text(shortReflection)
+                    Text(album.shortReflection)
                         .font(.body)
                         .foregroundColor(Color.white)
                         .padding([.leading, .trailing], 40.0)
@@ -81,11 +81,11 @@ struct GeneratedView: View {
                     }
                     Group {
                        
-                        Text(mindRecom)
+                        Text(album.mindRecom)
                             .font(.title)
                             .foregroundColor(Color.white)
                             .padding(.vertical, 10.0)
-                        Text(mindDescRecom)
+                        Text(album.mindDescRecom)
                             .font(.body)
                             .foregroundColor(Color.white)
                             .padding([.leading, .trailing], 40.0)
@@ -96,7 +96,7 @@ struct GeneratedView: View {
                             .padding(.vertical, 2.0)
                     }
                     Group {
-                        ForEach(goals, id: \.self) { goal in
+                        ForEach(album.goals, id: \.self) { goal in
                                         Text(goal)
                                     }
                     }.font(.headline)
@@ -125,22 +125,18 @@ struct GeneratedView: View {
 }
 
 
-var title = "Vibrant Transitions"
-var caption = "Embrace the Colors of Life"
-var shortReflection = "Vibrant Transitions is a musical journey that encapsulates the spectrum of emotions experienced during everyday adventures. Each track represents a unique moment of discovery, from the exhilarating taste of a latte to the fleeting encounter with a red Ferrari. This album aims to evoke a sense of wonder and encourage listeners to embrace the vibrancy of life."
+var album = Album(
+    title: "Vibrant Transitions",
+    caption: "Embrace the Colors of Life",
+    shortReflection: "Vibrant Transitions is a musical journey...",
+    mindRecom: "Mindful Mornings",
+    mindDescRecom: "Start your day with mindfulness exercises...",
+    goals: [
+        "Practice guitar solos for the Friday band rehearsal.",
+        "Initiate a conversation with another classmate to expand social connections."
+    ]
+)
 
-var mindRecom = "Mindful Mornings"
-var mindDescRecom = "Start your day with mindfulness exercises to cultivate a sense of presence and clarity. Engage in activities like meditation or journaling to set a positive tone for the day ahead."
-
-
-
-var goals:[String] = ["Practice guitar solos for the Friday band rehearsal.", "Initiate a conversation with another classmate to expand social connections."]
-
-
-
-func loadAlbum() {
-    
-}
 
 struct GeneratedView_Previews: PreviewProvider {
     static var previews: some View {

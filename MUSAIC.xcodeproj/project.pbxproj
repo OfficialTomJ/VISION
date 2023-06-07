@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4627318B2A306C0500B43A15 /* GeneratedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462731892A306C0500B43A15 /* GeneratedView.swift */; };
 		4627318D2A306CBE00B43A15 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4627318C2A306CBE00B43A15 /* GoogleService-Info.plist */; };
+		462731912A30739400B43A15 /* SummaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462731902A30739400B43A15 /* SummaryModel.swift */; };
 		464379F42A29B6D10009C0D7 /* MUSAICApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464379F32A29B6D10009C0D7 /* MUSAICApp.swift */; };
 		464379F62A29B6D10009C0D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464379F52A29B6D10009C0D7 /* ContentView.swift */; };
 		464379F82A29B6D20009C0D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 464379F72A29B6D20009C0D7 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		462731892A306C0500B43A15 /* GeneratedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedView.swift; sourceTree = "<group>"; };
 		4627318C2A306CBE00B43A15 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		462731902A30739400B43A15 /* SummaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryModel.swift; sourceTree = "<group>"; };
 		464379F02A29B6D10009C0D7 /* MUSAIC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUSAIC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		464379F32A29B6D10009C0D7 /* MUSAICApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICApp.swift; sourceTree = "<group>"; };
 		464379F52A29B6D10009C0D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				462731892A306C0500B43A15 /* GeneratedView.swift */,
+				462731902A30739400B43A15 /* SummaryModel.swift */,
 				4627318C2A306CBE00B43A15 /* GoogleService-Info.plist */,
 				464379F32A29B6D10009C0D7 /* MUSAICApp.swift */,
 				464379F52A29B6D10009C0D7 /* ContentView.swift */,
@@ -240,6 +243,7 @@
 				4627318B2A306C0500B43A15 /* GeneratedView.swift in Sources */,
 				464379F62A29B6D10009C0D7 /* ContentView.swift in Sources */,
 				466D0B8B2A2EC69A00BB260A /* GPTGenerate.swift in Sources */,
+				462731912A30739400B43A15 /* SummaryModel.swift in Sources */,
 				464379F42A29B6D10009C0D7 /* MUSAICApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
