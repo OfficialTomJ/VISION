@@ -60,7 +60,7 @@ private func handleIncomingURL(_ url: URL) {
     var cancellables = Set<AnyCancellable>()
     
     guard url.scheme == "spotify" else {
-        //Request and access Spotify refresh tokens
+        // Request and access Spotify refresh tokens
         spotify.authorizationManager.requestAccessAndRefreshTokens(
             redirectURIWithQuery: url,
             // Must match the code verifier that was used to generate the
@@ -71,20 +71,23 @@ private func handleIncomingURL(_ url: URL) {
         )
         .sink(receiveCompletion: { completion in
             switch completion {
-                case .finished:
-                    print("successfully authorized")
-                case .failure(let error):
-                    if let authError = error as? SpotifyAuthorizationError, authError.accessWasDenied {
-                        print("The user denied the authorization request")
-                    }
-                    else {
-                        print("couldn't authorize application: \(error)")
-                    }
+            case .finished:
+                print("Successfully authorized")
+            case .failure(let error):
+                if let authError = error as? SpotifyAuthorizationError, authError.accessWasDenied {
+                    print("The user denied the authorization request")
+                }
+                else {
+                    print("Couldn't authorize application: \(error)")
+                }
             }
         })
         .store(in: &cancellables)
+        
+        print("Requesting access and refresh tokens...")
         return
-        }
+    }
+
     }
 
 
