@@ -43,7 +43,7 @@ struct ContentView: View {
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color(red: 0.2, green: 0.5, blue: 0.7))
-                                .frame(width: calculateWidth(), height: 15)
+                                .frame(width: 50, height: 15)
                                 .opacity(0.9)
                                 .overlay(Text("\(progressCounter)")
                                     .font(.caption)
