@@ -90,16 +90,18 @@ struct ContentView: View {
                                     generateSummaryAndImage()
                                 }}
                         )
+                        .disabled(thoughtsArray.count <= 4)
                         .accentColor(Color(hue: 1.0, saturation: 1.0, brightness: 1.0, opacity: 0))
                         .frame(width: 150)
                         
                     }
                     .padding()
                     Text("Slide to generate")
+                        .opacity(thoughtsArray.count <= 4 ? 0.5 : 1)
                         .font(.title3)
                         .foregroundColor(Color.white)
-                        .opacity(0.8)
                     Text("Or keep going")
+                        .opacity(thoughtsArray.count <= 4 ? 0 : 1)
                         .font(.caption)
                         .foregroundColor(Color.white)
                     
