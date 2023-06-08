@@ -33,13 +33,13 @@ struct ContentView: View {
                 VStack (alignment: .center)
                 {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color(red: 0.4, green: 0.6, blue: 0.9))
+                        .fill(Color(red: 0.1, green: 0.5, blue: 0.7))
                         .frame(width: 300, height: 15)
-                        .opacity(0.8)
+                        .opacity(0.5)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(Color(red: 0.5, green: 0.7, blue: 0.9))
-                                .frame(width: 100, height: 15)
+                                .fill(Color(red: 0.2, green: 0.5, blue: 0.7))
+                                .frame(width: calculateWidth(), height: 15)
                                 .opacity(0.9)
                                 .overlay(Text("\(progressCounter)")
                                     .font(.caption)
@@ -112,7 +112,17 @@ struct ContentView: View {
         }
     }
     
-    
+    func calculateWidth() -> CGFloat {
+            let minWidth: CGFloat = 50
+            let maxWidth: CGFloat = 300
+            
+            let progressValue = CGFloat(progressCounter)
+            let progressRange = CGFloat(10)
+            
+            let width = minWidth + (maxWidth - minWidth) * (progressValue / progressRange)
+            
+            return min(max(width, minWidth), maxWidth)
+        }
     
     func generateSummary() {
         var summaryPrompt = "You are a bot that only responds in JSON format. Based on these collected thoughts, "

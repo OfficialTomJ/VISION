@@ -31,7 +31,6 @@ struct GeneratedView: View {
         ZStack(alignment: .top){
             Image("Background")
                 .resizable()
-                .frame(width: 450,height: 1000)
                 .ignoresSafeArea()
             ScrollView{
                 VStack(alignment: .center) {
@@ -49,6 +48,7 @@ struct GeneratedView: View {
                     Image("sample")
                         .resizable()
                         .frame(width: 300, height: 300)
+                    
                     HStack {
                         VStack{
                             Image("Album 1")
@@ -139,7 +139,7 @@ struct GeneratedView: View {
                             album = generateViewWithCustomAlbum(jsonString: jsonString)
                             print(album)
                         }
-        }
+        }.ignoresSafeArea()
     }
 }
 
