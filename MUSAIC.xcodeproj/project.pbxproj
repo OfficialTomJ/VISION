@@ -13,9 +13,9 @@
 		463F5F722A315C0200B77900 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 463F5F712A315C0200B77900 /* GoogleService-Info.plist */; };
 		463F5F752A315C3600B77900 /* SpotifyAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 463F5F742A315C3600B77900 /* SpotifyAPI */; };
 		463F5F772A31611E00B77900 /* DALLEGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463F5F762A31611E00B77900 /* DALLEGenerate.swift */; };
+		463F5F7B2A31AA7E00B77900 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 463F5F7A2A31AA7D00B77900 /* Assets.xcassets */; };
 		464379F42A29B6D10009C0D7 /* MUSAICApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464379F32A29B6D10009C0D7 /* MUSAICApp.swift */; };
 		464379F62A29B6D10009C0D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464379F52A29B6D10009C0D7 /* ContentView.swift */; };
-		464379F82A29B6D20009C0D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 464379F72A29B6D20009C0D7 /* Assets.xcassets */; };
 		464379FB2A29B6D20009C0D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 464379FA2A29B6D20009C0D7 /* Preview Assets.xcassets */; };
 		46437A232A29BF280009C0D7 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A222A29BF280009C0D7 /* FirebaseAnalytics */; };
 		46437A252A29BF280009C0D7 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A242A29BF280009C0D7 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -47,10 +47,10 @@
 		463F5F6F2A315BE600B77900 /* SpotifyVerify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyVerify.swift; sourceTree = "<group>"; };
 		463F5F712A315C0200B77900 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		463F5F762A31611E00B77900 /* DALLEGenerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DALLEGenerate.swift; sourceTree = "<group>"; };
+		463F5F7A2A31AA7D00B77900 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
 		464379F02A29B6D10009C0D7 /* MUSAIC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUSAIC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		464379F32A29B6D10009C0D7 /* MUSAICApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICApp.swift; sourceTree = "<group>"; };
 		464379F52A29B6D10009C0D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		464379F72A29B6D20009C0D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		464379FA2A29B6D20009C0D7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		46437A042A29B6D20009C0D7 /* MUSAICTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICTests.swift; sourceTree = "<group>"; };
 		46437A0E2A29B6D20009C0D7 /* MUSAICUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICUITests.swift; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 				464379F52A29B6D10009C0D7 /* ContentView.swift */,
 				466D0B8A2A2EC69A00BB260A /* GPTGenerate.swift */,
 				463F5F762A31611E00B77900 /* DALLEGenerate.swift */,
-				464379F72A29B6D20009C0D7 /* Assets.xcassets */,
+				463F5F7A2A31AA7D00B77900 /* Assets.xcassets */,
 				464379F92A29B6D20009C0D7 /* Preview Content */,
 			);
 			path = MUSAIC;
@@ -239,7 +239,7 @@
 			files = (
 				464379FB2A29B6D20009C0D7 /* Preview Assets.xcassets in Resources */,
 				463F5F722A315C0200B77900 /* GoogleService-Info.plist in Resources */,
-				464379F82A29B6D20009C0D7 /* Assets.xcassets in Resources */,
+				463F5F7B2A31AA7E00B77900 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
