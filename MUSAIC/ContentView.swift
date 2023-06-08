@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import Firebase
 
 var prompts: [String] = [
     "What inspired you today?",
@@ -23,6 +24,8 @@ struct ContentView: View {
     
     @State private var summaryJSON = ""
     @State private var albumArtworkURL = ""
+    
+    @State private var showModal = false
     
     var progressCounter: Int {
         thoughtsArray.count
@@ -117,6 +120,22 @@ struct ContentView: View {
                 .hidden()
             )
         }
+        .onAppear(perform: checkFirebaseUser)
+        .sheet(isPresented: $showModal) {
+                    SignInView()
+                }
+        
+    }
+    
+    func checkFirebaseUser() {
+        if let currentUser = Auth.auth().currentUser {
+            // User is signed in
+            // Perform any necessary actions
+            print(currentUser)
+        } else {
+            // User is not signed in - load the sign-in modal
+            showModal = true
+        }
     }
     
     func generateSummaryAndImage() {
@@ -178,6 +197,7 @@ struct ContentView: View {
                 print("Error generating text: \(error)")
             }
         }
+        
     }
     
     func checkNavigation() {
