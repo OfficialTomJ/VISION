@@ -226,7 +226,6 @@ struct GeneratedView: View {
         }
         
         return album
-    }
 
 
 
