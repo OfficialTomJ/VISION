@@ -53,10 +53,11 @@ struct ContentView: View {
                         Text(prompt)
                             .font(.title2)
                             .foregroundColor(Color.white)
+                            .multilineTextAlignment(.center)
                         Button(action: {
                             shuffleThought(prompt: $prompt)
                         }) {
-                            Image("regen").resizable()
+                            Image("Reload").resizable()
                                 .foregroundColor(Color.white)
                                 .frame(width: 20,height: 20)
                         }
@@ -105,7 +106,7 @@ struct ContentView: View {
                         .font(.caption)
                         .foregroundColor(Color.white)
                     
-                }.padding(.top, 50.0)
+                }.padding(.top, 50)
                 
             }
             .navigationBarHidden(true)
