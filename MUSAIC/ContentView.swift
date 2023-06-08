@@ -130,7 +130,8 @@ struct ContentView: View {
                         let jsonFormattedData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
                         if let jsonFormattedString = String(data: jsonFormattedData, encoding: .utf8) {
                             summaryJSON = jsonFormattedString
-                            isNavigationActive = true
+                            //CHANGE THIS TO CHANGE UI
+                            isNavigationActive = false
                         }
                     }
                 } catch {
@@ -141,7 +142,28 @@ struct ContentView: View {
             }
 
         }
+        
+        var imgPrompt = "Based on these collected thoughts, "
+        for thought in thoughtsArray {
+            imgPrompt += "`\(thought)`, "
+        }
+        imgPrompt += "Describe an album cover artwork in 1 sentence."
+        
+        
+        //Generate DALLE Image
+        generateGPT(prompt: imgPrompt) { result in
+            switch result {
+            case .success(let generatedText):
+                do {
+                       print(generatedText)
+                       //CHANGE THIS TO CHANGE UI
+                       isNavigationActive = false
+                }
+            case .failure(let error):
+                print("Error generating text: \(error)")
+            }
 
+        }
         
     }
     
