@@ -9,7 +9,23 @@ import SwiftUI
 
 struct GeneratedView: View {
     
+    let jsonString: String
+    
     @State private var isPlaying = false
+    
+    @State private var album: Album
+    
+    init(jsonString: String) {
+            self.jsonString = jsonString
+            _album = State(initialValue: Album(
+                title: "",
+                caption: "",
+                shortReflection: "",
+                mindRecom: "",
+                mindDescRecom: "",
+                goals: [""]
+            ))
+        }
     
     var body: some View {
         ZStack(alignment: .top){
@@ -119,27 +135,62 @@ struct GeneratedView: View {
                     .padding(.top)
                 }.padding(.vertical, 120)
             }.padding()
-            
+                .onAppear {
+                            album = generateViewWithCustomAlbum(jsonString: jsonString)
+                            print(album)
+                        }
         }
     }
 }
 
 
-var album = Album(
-    title: "Vibrant Transitions",
-    caption: "Embrace the Colors of Life",
-    shortReflection: "Vibrant Transitions is a musical journey...",
-    mindRecom: "Mindful Mornings",
-    mindDescRecom: "Start your day with mindfulness exercises...",
-    goals: [
-        "Practice guitar solos for the Friday band rehearsal.",
-        "Initiate a conversation with another classmate to expand social connections."
-    ]
-)
+func generateViewWithCustomAlbum(jsonString: String) -> Album {
+    var album = Album(
+        title: "",
+        caption: "",
+        shortReflection: "",
+        mindRecom: "",
+        mindDescRecom: "",
+        goals: [
+            ""]
+    )
+    
+    if let jsonData = jsonString.data(using: .utf8) {
+        do {
+            print("This is the output!:")
+            print(jsonString)
+            let json = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
+            
+            // Extract values from JSON dictionary
+            let title = json?["title"] as? String ?? ""
+            let caption = json?["caption"] as? String ?? ""
+            let shortReflection = json?["short-reflection"] as? String ?? ""
+            let recommendation = json?["recommendation"] as? [String: Any]
+            let mindfulness = recommendation?["mindfulness"] as? String ?? ""
+            let shortDescription = recommendation?["short-description"] as? String ?? ""
+            let goals = json?["goals"] as? [String] ?? [""]
+            
+            // Create the Album object
+            album = Album(
+                title: title,
+                caption: caption,
+                shortReflection: shortReflection,
+                mindRecom: mindfulness,
+                mindDescRecom: shortDescription,
+                goals: goals
+            )
+        } catch {
+            print("Error decoding JSON: \(error)")
+        }
+    }
+    
+    return album
+}
+
 
 
 struct GeneratedView_Previews: PreviewProvider {
     static var previews: some View {
-        GeneratedView()
+        GeneratedView(jsonString: "String!")
     }
 }
