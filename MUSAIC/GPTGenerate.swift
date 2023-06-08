@@ -12,7 +12,7 @@ func generateGPT(prompt: String, completion: @escaping (Result<String, Error>) -
     let endpoint = "https://api.openai.com/v1/engines/text-davinci-002/completions"
     let parameters: [String: Any] = [
         "prompt": prompt,
-        "max_tokens": 50
+        "max_tokens": 500
     ]
 
     guard let url = URL(string: endpoint) else {
