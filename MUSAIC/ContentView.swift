@@ -32,6 +32,7 @@ struct ContentView: View {
                     .ignoresSafeArea()
                 VStack (alignment: .center)
                 {
+                    
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color(red: 0.1, green: 0.5, blue: 0.7))
                         .frame(width: 300, height: 15)
@@ -45,16 +46,19 @@ struct ContentView: View {
                                     .font(.caption)
                                     .foregroundColor(Color.white)
                                     .multilineTextAlignment(.leading)))
+
                     HStack(){
                         Text(prompt)
                             .font(.title2)
                             .foregroundColor(Color.white)
+                        
                         Button(action: {
                             shuffleThought(prompt: $prompt)
                         }) {
                             Image("regen").resizable()
                                 .foregroundColor(Color.white)
                                 .frame(width: 20,height: 20)
+                            
                         }
                         
                     }.padding(.top, 240.0)
@@ -72,6 +76,7 @@ struct ContentView: View {
                                 .frame(width: 25,height: 25)
                         }
                     }
+                    
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white)
@@ -88,18 +93,25 @@ struct ContentView: View {
                         )
                         .accentColor(Color(hue: 1.0, saturation: 1.0, brightness: 1.0, opacity: 0))
                         .frame(width: 150)
-                        
+                        Text("Slide to geneerate")
+                            .font(.caption2)
+                            .foregroundColor(Color.white)
+                            .multilineTextAlignment(.center)
+                            .opacity(0.8)
                     }
-                    .padding()
-                    Text("Slide to generate")
-                        .font(.title3)
-                        .foregroundColor(Color.white)
-                        .opacity(0.8)
-                    Text("Or keep going")
+                    
+                    .padding(0.0)
+                    Text("...Or keep going")
                         .font(.caption)
                         .foregroundColor(Color.white)
                     
+                    
+                    
+                    
                 }.padding(.top, 50.0)
+                
+
+                
                 
             }
             .navigationBarHidden(true)
@@ -109,8 +121,14 @@ struct ContentView: View {
                 }
                 .hidden()
             )
+            
+            
         }
+        
+        
+        
     }
+    
     
     func calculateWidth() -> CGFloat {
             let minWidth: CGFloat = 50
