@@ -18,7 +18,13 @@ struct ContentView: View {
     @State private var isToggled: Bool = false
     @State private var isNavigationActive = false
     
+    @State private var spinnerVisible = 0.0
+    
+    @State private var isSummaryReady = false
+    @State private var isImageReady = false
+    
     @State private var summaryJSON = ""
+    @State private var albumArtworkURL = ""
     
     var progressCounter: Int {
         thoughtsArray.count
@@ -32,29 +38,33 @@ struct ContentView: View {
                     .ignoresSafeArea()
                 VStack (alignment: .center)
                 {
+                    
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color(red: 0.4, green: 0.6, blue: 0.9))
+                        .fill(Color(red: 0.1, green: 0.5, blue: 0.7))
                         .frame(width: 300, height: 15)
-                        .opacity(0.8)
+                        .opacity(0.5)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(Color(red: 0.5, green: 0.7, blue: 0.9))
-                                .frame(width: 100, height: 15)
+                                .fill(Color(red: 0.2, green: 0.5, blue: 0.7))
+                                .frame(width: 50, height: 15)
                                 .opacity(0.9)
                                 .overlay(Text("\(progressCounter)")
                                     .font(.caption)
                                     .foregroundColor(Color.white)
                                     .multilineTextAlignment(.leading)))
+
                     HStack(){
                         Text(prompt)
                             .font(.title2)
                             .foregroundColor(Color.white)
+                            .multilineTextAlignment(.center)
                         Button(action: {
                             shuffleThought(prompt: $prompt)
                         }) {
-                            Image("regen").resizable()
+                            Image("Reload").resizable()
                                 .foregroundColor(Color.white)
                                 .frame(width: 20,height: 20)
+                            
                         }
                         
                     }.padding(.top, 240.0)
@@ -72,6 +82,7 @@ struct ContentView: View {
                                 .frame(width: 25,height: 25)
                         }
                     }
+                    
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white)
@@ -83,38 +94,54 @@ struct ContentView: View {
                             in: 0...100,
                             onEditingChanged: { editingChanged in
                                 if speed == 100 && !editingChanged {
-                                    generateSummary()
+                                    generateSummaryAndImage()
                                 }}
                         )
+                        .disabled(thoughtsArray.count <= 4)
                         .accentColor(Color(hue: 1.0, saturation: 1.0, brightness: 1.0, opacity: 0))
                         .frame(width: 150)
-                        
+                        Text("Slide to geneerate")
+                            .font(.caption2)
+                            .foregroundColor(Color.white)
+                            .multilineTextAlignment(.center)
+                            .opacity(0.8)
                     }
                     .padding()
                     Text("Slide to generate")
+                        .opacity(thoughtsArray.count <= 4 ? 0.5 : 1)
                         .font(.title3)
                         .foregroundColor(Color.white)
-                        .opacity(0.8)
                     Text("Or keep going")
+                        .opacity(thoughtsArray.count <= 4 ? 0 : 1)
                         .font(.caption)
                         .foregroundColor(Color.white)
-                    
-                }.padding(.top, 50.0)
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
+                        .scaleEffect(2.0)
+                        .opacity(spinnerVisible)
+                }.padding(.top, 50)
+                
+
+                
                 
             }
             .navigationBarHidden(true)
             .background(
-                NavigationLink(destination: GeneratedView(jsonString: summaryJSON), isActive: $isNavigationActive) {
+                NavigationLink(destination: GeneratedView(jsonString: summaryJSON, albumArtworkURL: albumArtworkURL), isActive: $isNavigationActive) {
                     EmptyView()
                 }
                 .hidden()
             )
+            
+            
         }
+        
+        
+        
     }
-    
-    
-    
-    func generateSummary() {
+
+    func generateSummaryAndImage() {
+        spinnerVisible = 1.0
         var summaryPrompt = "You are a bot that only responds in JSON format. Based on these collected thoughts, "
         for thought in thoughtsArray {
             summaryPrompt += "`\(thought)`, "
@@ -130,7 +157,10 @@ struct ContentView: View {
                         let jsonFormattedData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
                         if let jsonFormattedString = String(data: jsonFormattedData, encoding: .utf8) {
                             summaryJSON = jsonFormattedString
-                            isNavigationActive = true
+                            print("Summary JSON:")
+                            print(summaryJSON)
+                            isSummaryReady = true
+                            checkNavigation()
                         }
                     }
                 } catch {
@@ -139,10 +169,44 @@ struct ContentView: View {
             case .failure(let error):
                 print("Error generating text: \(error)")
             }
-
         }
-
         
+        var imgPrompt = "Based on these collected thoughts, "
+        for thought in thoughtsArray {
+            imgPrompt += "`\(thought)`, "
+        }
+        imgPrompt += "Describe an album cover artwork in 1 sentence."
+        
+        // Generate DALLE Image
+        generateGPT(prompt: imgPrompt) { result in
+            switch result {
+            case .success(let generatedText):
+                do {
+                    DALLEGenerate(prompt: String(generatedText)) { result in
+                        switch result {
+                        case .success(let url):
+                            // Handle the generated image URL
+                            print("Generated image URL: \(url.absoluteString)")
+                            albumArtworkURL = url.absoluteString
+                            isImageReady = true
+                            checkNavigation()
+                        case .failure(let error):
+                            // Handle the error
+                            print("Image Error: \(error)")
+                        }
+                    }
+                }
+            case .failure(let error):
+                print("Error generating text: \(error)")
+            }
+        }
+    }
+    
+    func checkNavigation() {
+        if isSummaryReady && isImageReady {
+            spinnerVisible = 0.0
+            isNavigationActive = true
+        }
     }
     
     func addThought() {
@@ -167,5 +231,4 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
-        
 }

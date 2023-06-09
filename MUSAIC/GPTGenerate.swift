@@ -46,7 +46,6 @@ func generateGPT(prompt: String, completion: @escaping (Result<String, Error>) -
 
         do {
             let responseJSON = try JSONSerialization.jsonObject(with: data, options: [])
-            print(responseJSON) // Print the response JSON for debugging
 
             if let responseObject = responseJSON as? [String: Any],
                let choices = responseObject["choices"] as? [[String: Any]],

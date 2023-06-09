@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		4627318B2A306C0500B43A15 /* GeneratedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462731892A306C0500B43A15 /* GeneratedView.swift */; };
-		4627318D2A306CBE00B43A15 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4627318C2A306CBE00B43A15 /* GoogleService-Info.plist */; };
 		462731912A30739400B43A15 /* SummaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462731902A30739400B43A15 /* SummaryModel.swift */; };
+		463F5F702A315BE600B77900 /* SpotifyVerify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463F5F6F2A315BE600B77900 /* SpotifyVerify.swift */; };
+		463F5F722A315C0200B77900 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 463F5F712A315C0200B77900 /* GoogleService-Info.plist */; };
+		463F5F752A315C3600B77900 /* SpotifyAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 463F5F742A315C3600B77900 /* SpotifyAPI */; };
+		463F5F772A31611E00B77900 /* DALLEGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463F5F762A31611E00B77900 /* DALLEGenerate.swift */; };
+		463F5F7B2A31AA7E00B77900 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 463F5F7A2A31AA7D00B77900 /* Assets.xcassets */; };
 		464379F42A29B6D10009C0D7 /* MUSAICApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464379F32A29B6D10009C0D7 /* MUSAICApp.swift */; };
 		464379F62A29B6D10009C0D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464379F52A29B6D10009C0D7 /* ContentView.swift */; };
-		464379F82A29B6D20009C0D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 464379F72A29B6D20009C0D7 /* Assets.xcassets */; };
 		464379FB2A29B6D20009C0D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 464379FA2A29B6D20009C0D7 /* Preview Assets.xcassets */; };
 		46437A232A29BF280009C0D7 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A222A29BF280009C0D7 /* FirebaseAnalytics */; };
 		46437A252A29BF280009C0D7 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A242A29BF280009C0D7 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -41,12 +44,14 @@
 
 /* Begin PBXFileReference section */
 		462731892A306C0500B43A15 /* GeneratedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedView.swift; sourceTree = "<group>"; };
-		4627318C2A306CBE00B43A15 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		462731902A30739400B43A15 /* SummaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryModel.swift; sourceTree = "<group>"; };
+		463F5F6F2A315BE600B77900 /* SpotifyVerify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyVerify.swift; sourceTree = "<group>"; };
+		463F5F712A315C0200B77900 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		463F5F762A31611E00B77900 /* DALLEGenerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DALLEGenerate.swift; sourceTree = "<group>"; };
+		463F5F7A2A31AA7D00B77900 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
 		464379F02A29B6D10009C0D7 /* MUSAIC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUSAIC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		464379F32A29B6D10009C0D7 /* MUSAICApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICApp.swift; sourceTree = "<group>"; };
 		464379F52A29B6D10009C0D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		464379F72A29B6D20009C0D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		464379FA2A29B6D20009C0D7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		46437A042A29B6D20009C0D7 /* MUSAICTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICTests.swift; sourceTree = "<group>"; };
 		46437A0E2A29B6D20009C0D7 /* MUSAICUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICUITests.swift; sourceTree = "<group>"; };
@@ -76,6 +81,7 @@
 				46437A372A29BF280009C0D7 /* FirebaseDatabaseSwift in Frameworks */,
 				46437A412A29BF280009C0D7 /* FirebaseFunctions in Frameworks */,
 				46437A2D2A29BF280009C0D7 /* FirebaseAppDistribution-Beta in Frameworks */,
+				463F5F752A315C3600B77900 /* SpotifyAPI in Frameworks */,
 				46437A312A29BF280009C0D7 /* FirebaseAuthCombine-Community in Frameworks */,
 				46437A472A29BF280009C0D7 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				46437A392A29BF280009C0D7 /* FirebaseDynamicLinks in Frameworks */,
@@ -108,14 +114,16 @@
 		464379F22A29B6D10009C0D7 /* MUSAIC */ = {
 			isa = PBXGroup;
 			children = (
+				463F5F6F2A315BE600B77900 /* SpotifyVerify.swift */,
 				462731892A306C0500B43A15 /* GeneratedView.swift */,
 				E1C8D9202A315E4800EA7A84 /* SwiftUIView.swift */,
 				462731902A30739400B43A15 /* SummaryModel.swift */,
-				4627318C2A306CBE00B43A15 /* GoogleService-Info.plist */,
+				463F5F712A315C0200B77900 /* GoogleService-Info.plist */,
 				464379F32A29B6D10009C0D7 /* MUSAICApp.swift */,
 				464379F52A29B6D10009C0D7 /* ContentView.swift */,
 				466D0B8A2A2EC69A00BB260A /* GPTGenerate.swift */,
-				464379F72A29B6D20009C0D7 /* Assets.xcassets */,
+				463F5F762A31611E00B77900 /* DALLEGenerate.swift */,
+				463F5F7A2A31AA7D00B77900 /* Assets.xcassets */,
 				464379F92A29B6D20009C0D7 /* Preview Content */,
 			);
 			path = MUSAIC;
@@ -184,6 +192,7 @@
 				46437A462A29BF280009C0D7 /* FirebaseInAppMessagingSwift-Beta */,
 				46437A482A29BF280009C0D7 /* FirebaseInstallations */,
 				46437A4A2A29BF280009C0D7 /* FirebaseMLModelDownloader */,
+				463F5F742A315C3600B77900 /* SpotifyAPI */,
 			);
 			productName = MUSAIC;
 			productReference = 464379F02A29B6D10009C0D7 /* MUSAIC.app */;
@@ -215,6 +224,7 @@
 			mainGroup = 464379E72A29B6D10009C0D7;
 			packageReferences = (
 				46437A212A29BF280009C0D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				463F5F732A315C3600B77900 /* XCRemoteSwiftPackageReference "SpotifyAPI" */,
 			);
 			productRefGroup = 464379F12A29B6D10009C0D7 /* Products */;
 			projectDirPath = "";
@@ -231,8 +241,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				464379FB2A29B6D20009C0D7 /* Preview Assets.xcassets in Resources */,
-				4627318D2A306CBE00B43A15 /* GoogleService-Info.plist in Resources */,
-				464379F82A29B6D20009C0D7 /* Assets.xcassets in Resources */,
+				463F5F722A315C0200B77900 /* GoogleService-Info.plist in Resources */,
+				463F5F7B2A31AA7E00B77900 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +259,8 @@
 				466D0B8B2A2EC69A00BB260A /* GPTGenerate.swift in Sources */,
 				462731912A30739400B43A15 /* SummaryModel.swift in Sources */,
 				464379F42A29B6D10009C0D7 /* MUSAICApp.swift in Sources */,
+				463F5F702A315BE600B77900 /* SpotifyVerify.swift in Sources */,
+				463F5F772A31611E00B77900 /* DALLEGenerate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +461,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		463F5F732A315C3600B77900 /* XCRemoteSwiftPackageReference "SpotifyAPI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Peter-Schorn/SpotifyAPI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		46437A212A29BF280009C0D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -460,6 +480,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		463F5F742A315C3600B77900 /* SpotifyAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 463F5F732A315C3600B77900 /* XCRemoteSwiftPackageReference "SpotifyAPI" */;
+			productName = SpotifyAPI;
+		};
 		46437A222A29BF280009C0D7 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 46437A212A29BF280009C0D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

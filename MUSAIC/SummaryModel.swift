@@ -8,6 +8,7 @@
 import Foundation
 
 struct Album: Decodable {
+    let URL: String
     let title: String
     let caption: String
     let shortReflection: String

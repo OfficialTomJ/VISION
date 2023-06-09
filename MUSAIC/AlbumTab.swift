@@ -99,6 +99,3 @@ struct AlbumView: View {
             AlbumView()
         }
     }
-    
-
-
