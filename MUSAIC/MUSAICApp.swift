@@ -23,7 +23,7 @@ struct MUSAICApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Navigation()
         }
     }
 }
