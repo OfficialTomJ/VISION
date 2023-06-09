@@ -88,19 +88,17 @@ struct ContentView: View {
                         )
                         .accentColor(Color(hue: 1.0, saturation: 1.0, brightness: 1.0, opacity: 0))
                         .frame(width: 150)
-                        
+                        Text("   Slide to generate")
+                            .font(.caption2)
+                            .foregroundColor(Color.white)
+                            .multilineTextAlignment(.center)
+                            .opacity(0.9)
                     }
-                    .padding()
-                    Text("Slide to generate")
-                        .font(.title3)
-                        .foregroundColor(Color.white)
-                        .opacity(0.8)
-                    Text("Or keep going")
+                    .padding(0.0)
+                    Text("...Or keep going")
                         .font(.caption)
                         .foregroundColor(Color.white)
-                    
                 }.padding(.top, 50.0)
-                
             }
             .navigationBarHidden(true)
             .background(
