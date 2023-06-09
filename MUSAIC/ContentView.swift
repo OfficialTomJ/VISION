@@ -18,6 +18,8 @@ struct ContentView: View {
     @State private var isToggled: Bool = false
     @State private var isNavigationActive = false
     
+    @State private var spinnerVisible = 0.0
+    
     @State private var isSummaryReady = false
     @State private var isImageReady = false
     
@@ -105,7 +107,10 @@ struct ContentView: View {
                         .opacity(thoughtsArray.count <= 4 ? 0 : 1)
                         .font(.caption)
                         .foregroundColor(Color.white)
-                    
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
+                        .scaleEffect(2.0)
+                        .opacity(spinnerVisible)
                 }.padding(.top, 50)
                 
             }
@@ -120,6 +125,7 @@ struct ContentView: View {
     }
     
     func generateSummaryAndImage() {
+        spinnerVisible = 1.0
         var summaryPrompt = "You are a bot that only responds in JSON format. Based on these collected thoughts, "
         for thought in thoughtsArray {
             summaryPrompt += "`\(thought)`, "
@@ -182,6 +188,7 @@ struct ContentView: View {
     
     func checkNavigation() {
         if isSummaryReady && isImageReady {
+            spinnerVisible = 0.0
             isNavigationActive = true
         }
     }
