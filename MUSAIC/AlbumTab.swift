@@ -13,12 +13,12 @@ struct AlbumView: View {
     let albums = ["Album 1", "Album 2","New Image", "New Album","Album 3"]
     var body: some View {
         ZStack(alignment: .top){
-            Image("Background Image")
+            Image("Background")
                 .resizable()
                 .ignoresSafeArea()
             
             VStack {
-                Image("Album 1")
+                Image("sample")
                     .resizable()
                     .frame(width: 200, height: 200)
                     .padding(.top, 40.0)
@@ -46,7 +46,7 @@ struct AlbumView: View {
                         
                     }){
                         
-                        Image("Play Circle")
+                        Image("Play")
                             .resizable()
                             .frame(width: 50, height:50)
                     }
@@ -71,7 +71,7 @@ struct AlbumView: View {
                                     
                                     
                                 }) {
-                                    Image(album)
+                                    Image("sample")
                                         .resizable()
                                         .frame(width: 100, height: 100)
                                 

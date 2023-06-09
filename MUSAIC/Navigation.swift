@@ -12,9 +12,9 @@ struct Navigation: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            AlbumTab()
+            AlbumView()
                 .tabItem {
-                    Image("Album1")
+                    Image("headphones")
                 }
                 .tag(0)
             ContentView()
@@ -25,7 +25,7 @@ struct Navigation: View {
             
             SettingsTab()
                 .tabItem {
-                    Image("gear")
+                    Image("BVector")
                 }
                 .tag(2)
         }
