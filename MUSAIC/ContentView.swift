@@ -100,30 +100,17 @@ struct ContentView: View {
                         .disabled(thoughtsArray.count <= 4)
                         .accentColor(Color(hue: 1.0, saturation: 1.0, brightness: 1.0, opacity: 0))
                         .frame(width: 150)
-                        Text("Slide to geneerate")
+                        Text("   Slide to generate")
                             .font(.caption2)
                             .foregroundColor(Color.white)
                             .multilineTextAlignment(.center)
-                            .opacity(0.8)
+                            .opacity(0.9)
                     }
-                    .padding()
-                    Text("Slide to generate")
-                        .opacity(thoughtsArray.count <= 4 ? 0.5 : 1)
-                        .font(.title3)
-                        .foregroundColor(Color.white)
-                    Text("Or keep going")
-                        .opacity(thoughtsArray.count <= 4 ? 0 : 1)
+                    .padding(0.0)
+                    Text("...Or keep going")
                         .font(.caption)
                         .foregroundColor(Color.white)
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
-                        .scaleEffect(2.0)
-                        .opacity(spinnerVisible)
-                }.padding(.top, 50)
-                
-
-                
-                
+                }.padding(.top, 50.0)
             }
             .navigationBarHidden(true)
             .background(
