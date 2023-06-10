@@ -6,10 +6,44 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct SettingsTab: View {
+    @State private var userEmail: String = ""
+    
     var body: some View {
-        Text("SETTINGS TAB 🔩")
+        VStack {
+            Text("SETTINGS TAB 🔩")
+            Text("User Email: \(userEmail)")
+                .padding()
+                .onAppear(perform: loadFirebaseUser)
+            
+            Button(action: signOut) {
+                Text("Sign Out")
+                    .foregroundColor(.red)
+                    .padding()
+            }
+        }
+    }
+    
+    func loadFirebaseUser() {
+        if let currentUser = Auth.auth().currentUser {
+            let email = currentUser.email
+            userEmail = email ?? "N/A"
+        } else {
+            userEmail = "Not signed in"
+        }
+    }
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            print("User signed out successfully.")
+            // Update the userEmail property
+            userEmail = "Not signed in"
+        } catch let signOutError as NSError {
+            print("Error signing out: \(signOutError.localizedDescription)")
+        }
     }
 }
 
