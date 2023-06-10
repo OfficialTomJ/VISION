@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AlbumView: View {
+struct AlbumTab: View {
     @State private var offset = CGSize.zero
     
     let albums = ["Album 1", "Album 2","New Image", "New Album","Album 3"]
@@ -96,6 +96,6 @@ struct AlbumView: View {
 }
     struct AlbumView_Previews: PreviewProvider {
         static var previews: some View {
-            AlbumView()
+            AlbumTab()
         }
     }

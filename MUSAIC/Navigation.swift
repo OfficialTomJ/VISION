@@ -12,7 +12,7 @@ struct Navigation: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            AlbumView()
+            AlbumTab()
                 .tabItem {
                     Image("headphones")
                 }
