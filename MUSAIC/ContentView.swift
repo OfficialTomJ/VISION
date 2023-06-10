@@ -2,6 +2,8 @@ import SwiftUI
 import Combine
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseCore
+import FirebaseStorage
 
 var prompts: [String] = [
     "What inspired you today?",
@@ -12,6 +14,7 @@ var prompts: [String] = [
 ]
 
 struct ContentView: View {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     @State private var text: String = ""
     @State private var speed = 0.0
@@ -27,6 +30,9 @@ struct ContentView: View {
     
     @State private var summaryJSON = ""
     @State private var albumArtworkURL = ""
+    
+    @State private var errorAlertMessage: String = ""
+    @State private var showErrorAlert: Bool = false
     
     @StateObject private var thoughtsArrayObserver = ThoughtsArrayObserver()
     
@@ -126,6 +132,13 @@ struct ContentView: View {
             .onAppear(perform: {
                             thoughtsArrayObserver.startObserving(userID: getCurrentUserID(), observedThoughtsArray: $thoughtsArray)
                         })
+            .alert(isPresented: $showErrorAlert) {
+                        Alert(
+                            title: Text("Error"),
+                            message: Text(errorAlertMessage),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
             
         }
         
@@ -145,29 +158,52 @@ struct ContentView: View {
         for thought in thoughtsArray {
             summaryPrompt += "`\(thought)`, "
         }
-        summaryPrompt += "generate a summary in the theme of a music album with a title, caption, short personal reflection, 1 recommendation to do with mindfulness, and 2 goals for the week in this JSON format { \"title\": \"\", \"caption\": \"\", \"short-reflection\": \"\", \"recommendation\": { \"mindfulness\": \"\", \"short-description\": \"\" }, \"goals\": [ \"\", \"\" ] }"
+        summaryPrompt += "generate a summary in the theme of a music album with a title, caption, short personal reflection, 1 recommendation to do with mindfulness, and 2 goals for the week in this exact JSON format { \"title\": \"\", \"caption\": \"\", \"short-reflection\": \"\", \"recommendation\": { \"mindfulness\": \"\", \"short-description\": \"\" }, \"goals\": [ \"\", \"\" ] }"
 
         generateGPT(prompt: summaryPrompt) { result in
             switch result {
             case .success(let generatedText):
                 do {
-                    if let jsonData = generatedText.data(using: .utf8),
+                    var cleanedText = generatedText.trimmingCharacters(in: .whitespacesAndNewlines)
+
+                    if cleanedText.hasPrefix(".") {
+                        let dotIndex = cleanedText.index(cleanedText.startIndex, offsetBy: 1)
+                        cleanedText = String(cleanedText[dotIndex...])
+                    }
+
+                    cleanedText = cleanedText.replacingOccurrences(of: "`", with: "\"")
+                    cleanedText = cleanedText.replacingOccurrences(of: ", }", with: " }")
+                    cleanedText = cleanedText.replacingOccurrences(of: ", ]", with: " ]")
+                    cleanedText = cleanedText.replacingOccurrences(of: ",\n}", with: "\n}")
+                    cleanedText = cleanedText.replacingOccurrences(of: ",\n]", with: "\n]")
+
+                    if let jsonData = cleanedText.data(using: .utf8),
                        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] {
                         let jsonFormattedData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
                         if let jsonFormattedString = String(data: jsonFormattedData, encoding: .utf8) {
-                            summaryJSON = jsonFormattedString
-                            print("Summary JSON:")
-                            print(summaryJSON)
-                            isSummaryReady = true
-                            checkNavigation()
+                            self.summaryJSON = jsonFormattedString
+                            self.isSummaryReady = true
+                            self.checkNavigation()
+                            self.generateImageIfNeeded()
                         }
                     }
                 } catch {
                     print("Error converting generated text to JSON: \(error)")
+                    // Show error
+                    errorAlertMessage = "Something went wrong when generating the album. Add more thoughts or try again."
+                    showErrorAlert = true
                 }
             case .failure(let error):
                 print("Error generating text: \(error)")
+                errorAlertMessage = "Our AI generator is having some tech issues. Add more thoughts or try again."
+                showErrorAlert = true
             }
+        }
+    }
+
+    func generateImageIfNeeded() {
+        guard isSummaryReady else {
+            return
         }
         
         var imgPrompt = "Based on these collected thoughts, "
@@ -185,10 +221,9 @@ struct ContentView: View {
                         switch result {
                         case .success(let url):
                             // Handle the generated image URL
-                            print("Generated image URL: \(url.absoluteString)")
-                            albumArtworkURL = url.absoluteString
-                            isImageReady = true
-                            checkNavigation()
+                            self.albumArtworkURL = url.absoluteString
+                            self.isImageReady = true
+                            self.checkNavigation()
                         case .failure(let error):
                             // Handle the error
                             print("Image Error: \(error)")
@@ -196,17 +231,61 @@ struct ContentView: View {
                     }
                 }
             case .failure(let error):
-                print("Error generating text: \(error)")
+                print("Error generating image: \(error)")
+                errorAlertMessage = "Something went wrong when generating the album. Add more thoughts or try again."
+                showErrorAlert = true
             }
         }
     }
+
     
     func checkNavigation() {
+        if isNavigationActive {
+            // Already navigating, no need to continue
+            return
+        }
+        
         if isSummaryReady && isImageReady {
+            print("Ready Summary JSON: ")
+            print(summaryJSON)
+            print("Ready AI Image URL: ")
+            print(albumArtworkURL)
             spinnerVisible = 0.0
-            isNavigationActive = true
+            
+            // Check if already uploaded to Firebase
+            let databaseRef = Database.database().reference().child("data")
+            databaseRef.observeSingleEvent(of: .value) { (snapshot) in
+                if snapshot.exists() {
+                    // Data already exists in Firebase, proceed with navigation
+                    self.isNavigationActive = true
+                } else {
+                    // Upload JSON and image URL to Firebase
+                    self.uploadDataToFirebase()
+                }
+            }
         }
     }
+    func uploadDataToFirebase() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            self.errorAlertMessage = "User not authenticated"
+            self.showErrorAlert = true
+            return
+        }
+        
+        let data = ["json": self.summaryJSON]
+        let databaseRef = Database.database().reference().child("albums").child(uid).childByAutoId()
+        databaseRef.setValue(data) { (error, ref) in
+            if let error = error {
+                self.errorAlertMessage = error.localizedDescription
+                self.showErrorAlert = true
+                return
+            }
+            
+            self.isNavigationActive = true
+        }
+    }
+
+
     
     func addThought() {
         if let currentUser = Auth.auth().currentUser {
