@@ -1,5 +1,7 @@
 import SwiftUI
 import Combine
+import FirebaseAuth
+import FirebaseDatabase
 
 var prompts: [String] = [
     "What inspired you today?",
@@ -10,7 +12,7 @@ var prompts: [String] = [
 ]
 
 struct ContentView: View {
-
+    
     @State private var text: String = ""
     @State private var speed = 0.0
     @State private var prompt: String = "What Inspired you today?"
@@ -25,6 +27,8 @@ struct ContentView: View {
     
     @State private var summaryJSON = ""
     @State private var albumArtworkURL = ""
+    
+    @StateObject private var thoughtsArrayObserver = ThoughtsArrayObserver()
     
     var progressCounter: Int {
         thoughtsArray.count
@@ -52,7 +56,7 @@ struct ContentView: View {
                                     .font(.caption)
                                     .foregroundColor(Color.white)
                                     .multilineTextAlignment(.leading)))
-
+                    
                     HStack(){
                         Text(prompt)
                             .font(.title2)
@@ -117,14 +121,22 @@ struct ContentView: View {
                 NavigationLink(destination: GeneratedView(jsonString: summaryJSON, albumArtworkURL: albumArtworkURL), isActive: $isNavigationActive) {
                     EmptyView()
                 }
-                .hidden()
+                    .hidden()
             )
-            
+            .onAppear(perform: {
+                            thoughtsArrayObserver.startObserving(userID: getCurrentUserID(), observedThoughtsArray: $thoughtsArray)
+                        })
             
         }
         
-        
-        
+    }
+    
+    func getCurrentUserID() -> String {
+        if let currentUser = Auth.auth().currentUser {
+            return currentUser.uid
+        } else {
+            return ""
+        }
     }
 
     func generateSummaryAndImage() {
@@ -197,9 +209,15 @@ struct ContentView: View {
     }
     
     func addThought() {
-        if !text.isEmpty {
-            thoughtsArray.append(text)
-            print(thoughtsArray)
+        if let currentUser = Auth.auth().currentUser {
+            let userID = currentUser.uid
+            
+            let databaseRef = Database.database().reference()
+            let userThoughtsRef = databaseRef.child(userID).child("thoughts")
+            
+            let newThoughtRef = userThoughtsRef.childByAutoId()
+            newThoughtRef.setValue(text)
+            
             text = ""
         }
     }
@@ -219,3 +237,47 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+class ThoughtsArrayObserver: ObservableObject {
+    private var databaseHandle: DatabaseHandle?
+    private var isObserving = false
+    
+    deinit {
+        stopObserving()
+    }
+    
+    func startObserving(userID: String, observedThoughtsArray: Binding<[String]>) {
+        guard !isObserving else {
+            return
+        }
+        
+        let databaseRef = Database.database().reference()
+        let userThoughtsRef = databaseRef.child(userID).child("thoughts")
+        
+        // Observe for child added events
+        databaseHandle = userThoughtsRef.observe(.childAdded, with: { [weak self] snapshot in
+            if let thought = snapshot.value as? String {
+                observedThoughtsArray.wrappedValue.append(thought)
+            }
+        })
+        
+        // Observe for child removed events
+        userThoughtsRef.observe(.childRemoved, with: { [weak self] snapshot in
+            if let thought = snapshot.value as? String, let index = observedThoughtsArray.wrappedValue.firstIndex(of: thought) {
+                observedThoughtsArray.wrappedValue.remove(at: index)
+            }
+        })
+        
+        isObserving = true
+    }
+    
+    func stopObserving() {
+        if let databaseHandle = databaseHandle {
+            let databaseRef = Database.database().reference()
+            databaseRef.removeObserver(withHandle: databaseHandle)
+        }
+        
+        isObserving = false
+    }
+}
+
