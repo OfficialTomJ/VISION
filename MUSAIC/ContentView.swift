@@ -36,9 +36,16 @@ struct ContentView: View {
     
     @StateObject private var thoughtsArrayObserver = ThoughtsArrayObserver()
     
+    @Binding var databaseRef: DatabaseReference
+    
     var progressCounter: Int {
         thoughtsArray.count
     }
+    
+    init(databaseRef: Binding<DatabaseReference>) {
+        let databaseRefGen = Binding.constant(Database.database().reference().child("albums").child(Auth.auth().currentUser!.uid ).childByAutoId())
+            self._databaseRef = databaseRefGen
+        }
     
     var body: some View {
         NavigationView {
@@ -124,9 +131,10 @@ struct ContentView: View {
             }
             .navigationBarHidden(true)
             .background(
-                NavigationLink(destination: GeneratedView(jsonString: summaryJSON, albumArtworkURL: albumArtworkURL), isActive: $isNavigationActive) {
+                NavigationLink(destination: GeneratedView(databaseRef: databaseRef), isActive: $isNavigationActive) {
                     EmptyView()
                 }
+
                     .hidden()
             )
             .onAppear(perform: {
@@ -200,6 +208,7 @@ struct ContentView: View {
             }
         }
     }
+
 
     func generateImageIfNeeded() {
         guard isSummaryReady else {
@@ -323,7 +332,7 @@ struct ContentView: View {
                             "imageURL": downloadURL // Add the download URL to the data
                         ]
                         
-                        let databaseRef = Database.database().reference().child("albums").child(uid).childByAutoId()
+                        self.databaseRef = Database.database().reference().child("albums").child(uid).childByAutoId()
                         databaseRef.setValue(data) { error, _ in
                             if let error = error {
                                 self.errorAlertMessage = error.localizedDescription
@@ -368,9 +377,12 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        
+        let databaseRef = Binding.constant(Database.database().reference().child("albums").child(Auth.auth().currentUser!.uid ).childByAutoId())
+        return ContentView(databaseRef: databaseRef)
     }
 }
+
 
 class ThoughtsArrayObserver: ObservableObject {
     private var databaseHandle: DatabaseHandle?
