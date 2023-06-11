@@ -221,9 +221,11 @@ struct ContentView: View {
                         switch result {
                         case .success(let url):
                             // Handle the generated image URL
-                            self.albumArtworkURL = url.absoluteString
-                            self.isImageReady = true
-                            self.checkNavigation()
+                            DispatchQueue.main.async {
+                                self.albumArtworkURL = url.absoluteString // Update the albumArtworkURL
+                                self.isImageReady = true
+                                self.checkNavigation()
+                            }
                         case .failure(let error):
                             // Handle the error
                             print("Image Error: \(error)")
@@ -238,6 +240,7 @@ struct ContentView: View {
         }
     }
 
+
     
     func checkNavigation() {
         if isNavigationActive {
@@ -246,10 +249,9 @@ struct ContentView: View {
         }
         
         if isSummaryReady && isImageReady {
-            print("Ready Summary JSON: ")
-            print(summaryJSON)
-            print("Ready AI Image URL: ")
-            print(albumArtworkURL)
+            isSummaryReady = false
+            isImageReady = false
+            
             spinnerVisible = 0.0
             
             // Check if already uploaded to Firebase
@@ -265,6 +267,7 @@ struct ContentView: View {
             }
         }
     }
+
     func uploadDataToFirebase() {
         guard let uid = Auth.auth().currentUser?.uid else {
             self.errorAlertMessage = "User not authenticated"
@@ -272,18 +275,70 @@ struct ContentView: View {
             return
         }
         
-        let data = ["json": self.summaryJSON]
-        let databaseRef = Database.database().reference().child("albums").child(uid).childByAutoId()
-        databaseRef.setValue(data) { (error, ref) in
+        // Download the image from the URL
+        guard let url = URL(string: albumArtworkURL) else {
+            self.errorAlertMessage = "Invalid URL"
+            self.showErrorAlert = true
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 self.errorAlertMessage = error.localizedDescription
                 self.showErrorAlert = true
                 return
             }
             
-            self.isNavigationActive = true
-        }
+            guard let imageData = data else {
+                self.errorAlertMessage = "Failed to retrieve image data"
+                self.showErrorAlert = true
+                return
+            }
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/png" // Replace with the appropriate content type of your image
+
+            // Upload the image data to Firebase storage
+            let imageUUID = UUID().uuidString
+            let storageRef = Storage.storage().reference().child("albumArtwork/\(uid)/\(imageUUID)")
+
+            storageRef.putData(imageData, metadata: metadata) { metadata, error in
+                if let error = error {
+                    self.errorAlertMessage = error.localizedDescription
+                    self.showErrorAlert = true
+                    return
+                }
+                
+                // Get the download URL of the uploaded image
+                storageRef.downloadURL { url, error in
+                    if let error = error {
+                        self.errorAlertMessage = error.localizedDescription
+                        self.showErrorAlert = true
+                        return
+                    }
+                    
+                    // Store the download URL in your data structure or use it as needed
+                    if let downloadURL = url?.absoluteString {
+                        let data = [
+                            "json": self.summaryJSON,
+                            "imageURL": downloadURL // Add the download URL to the data
+                        ]
+                        
+                        let databaseRef = Database.database().reference().child("albums").child(uid).childByAutoId()
+                        databaseRef.setValue(data) { error, _ in
+                            if let error = error {
+                                self.errorAlertMessage = error.localizedDescription
+                                self.showErrorAlert = true
+                                return
+                            }
+                            
+                            self.isNavigationActive = true
+                        }
+                    }
+                }
+            }
+        }.resume()
     }
+
 
 
     
