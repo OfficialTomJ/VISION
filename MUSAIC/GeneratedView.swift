@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct GeneratedView: View {
+    
+    let databaseRef: DatabaseReference
     
     let jsonString: String
     let albumArtworkURL: String
@@ -16,9 +19,11 @@ struct GeneratedView: View {
     
     @State private var album: Album
     
-    init(jsonString: String, albumArtworkURL: String) {
-        self.jsonString = jsonString
-        self.albumArtworkURL = albumArtworkURL
+    init(databaseRef: DatabaseReference) {
+        self.databaseRef = databaseRef
+        self.jsonString = ""
+        self.albumArtworkURL = ""
+        
         _album = State(initialValue: Album(
             URL: "",
             title: "",
@@ -42,7 +47,7 @@ struct GeneratedView: View {
                         Text("24 May 2023")
                             .font(.title3)
                             .foregroundColor(Color.white)
-                        AsyncImage(url: URL(string: albumArtworkURL)) { phase in
+                        AsyncImage(url: URL(string: album.URL)) { phase in
                             switch phase {
                             case .empty:
                                 ProgressView()
@@ -175,14 +180,26 @@ struct GeneratedView: View {
                 }
             }.padding(.vertical, 135)
         }.onAppear {
-            album = generateViewWithCustomAlbum(jsonString: jsonString, albumArtworkURL: albumArtworkURL)
-            print(album)
+            loadAlbumData()
         }
         
     }
     
-    
-    
+    private func loadAlbumData() {
+        databaseRef.observeSingleEvent(of: .value) { snapshot in
+            if let value = snapshot.value as? [String: Any] {
+                // Parse the album data from the snapshot's value
+                if let json = value["json"] as? String, let imageURL = value["imageURL"] as? String {
+                    // Process the JSON string and handle the album artwork URL to populate the album properties
+                    print("GENERATED VIEW")
+                    print(json)
+                    print(imageURL)
+                    album = generateViewWithCustomAlbum(jsonString: json, albumArtworkURL: imageURL)
+                }
+            }
+        }
+    }
+
     func generateViewWithCustomAlbum(jsonString: String, albumArtworkURL: String) -> Album {
         var album = Album(
             URL: "",
@@ -191,14 +208,12 @@ struct GeneratedView: View {
             shortReflection: "",
             mindRecom: "",
             mindDescRecom: "",
-            goals: [
-                ""]
+            goals: [""]
         )
+
         
         if let jsonData = jsonString.data(using: .utf8) {
             do {
-                print("This is the output!:")
-                print(jsonString)
                 let json = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
                 
                 // Extract values from JSON dictionary
@@ -224,24 +239,13 @@ struct GeneratedView: View {
                 print("Error decoding JSON: \(error)")
             }
         }
-        
         return album
-        
-        
-        
-        struct GeneratedView_Previews: PreviewProvider {
-            static var previews: some View {
-                GeneratedView(jsonString: "String!", albumArtworkURL: "null")
-            }
-        }
-        
     }
-    
-    
     
     struct GeneratedView_Previews: PreviewProvider {
         static var previews: some View {
-            GeneratedView(jsonString: "String!", albumArtworkURL: "null")
+            let databaseRef = Database.database().reference()
+            return GeneratedView(databaseRef: databaseRef)
         }
     }
     

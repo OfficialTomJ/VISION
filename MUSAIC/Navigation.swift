@@ -7,10 +7,13 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseDatabase
 
 struct Navigation: View {
     @State private var selectedTab = 1
     @State private var showModal = false
+    
+    @Binding var databaseRef: DatabaseReference
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -19,7 +22,7 @@ struct Navigation: View {
                     Image("headphones")
                 }
                 .tag(0)
-            ContentView()
+            ContentView(databaseRef: $databaseRef)
                 .tabItem {
                     Image("BMusicNote")
                 }
@@ -51,6 +54,7 @@ struct Navigation: View {
 
 struct Navigation_Previews: PreviewProvider {
     static var previews: some View {
-        Navigation()
+        let databaseRef = Binding.constant(Database.database().reference())
+        Navigation(databaseRef: databaseRef)
     }
 }
