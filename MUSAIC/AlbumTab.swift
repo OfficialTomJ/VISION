@@ -6,11 +6,58 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseDatabase
+
+struct AlbumItem: Identifiable {
+    let id: String
+    var imageURL: String
+    var data: [String: Any]
+}
+
 
 struct AlbumTab: View {
     @State private var offset = CGSize.zero
     
-    let albums = ["Album 1", "Album 2","New Image", "New Album","Album 3"]
+    @State private var albums: [String: Any] = [:]
+    @State private var albumItems: [AlbumItem] = []
+    
+
+    func fetchAlbums() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User ID is nil")
+            return
+        }
+        
+        let ref = Database.database().reference().child("albums").child(uid)
+
+        ref.observe(.value) { snapshot in
+            if snapshot.childrenCount > 0 {
+                if let data = snapshot.value as? [String: Any] {
+                    albums = data
+                    albumItems = data.compactMap { key, value in
+                        guard let albumData = value as? [String: Any],
+                              let imageURL = albumData["imageURL"] as? String else {
+                            return nil
+                        }
+                        return AlbumItem(id: key, imageURL: imageURL, data: albumData)
+                    }
+                    if let urlString = albumItems.first?.imageURL {
+                    } else {
+                        print("No album items")
+                    }
+                } else {
+                    print("Snapshot data is nil")
+                }
+            } else {
+                print("Snapshot does not exist")
+            }
+        }
+    }
+
+
+
+
     var body: some View {
         ZStack(alignment: .top){
             Image("Background")
@@ -66,26 +113,58 @@ struct AlbumTab: View {
                 
                 ScrollView(.vertical, showsIndicators: true) {
                     LazyVGrid(columns: gridItems(), spacing: 20) {
-                        ForEach(albums, id: \.self) {album in
-                                Button(action: {
-                                    
-                                    
-                                }) {
-                                    Image("sample")
-                                        .resizable()
-                                        .frame(width: 100, height: 100)
-                                
-                                    
-                               
-                                }
-                            }
+                        ForEach(albumItems) { albumItem in
+                            let albumID = albumItem.id
+                            let imageURL = albumItem.imageURL
+                            let albumData = albumItem.data
                             
+                            if let url = URL(string: imageURL) {
+                                Button(action: {
+                                    // Handle button action
+                                }) {
+                                    AsyncImage(url: url) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            Image("")
+                                                .resizable()
+                                                .frame(width: 100, height: 100)
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .frame(width: 100, height: 100)
+                                        case .failure:
+                                            Image("sample")
+                                                .resizable()
+                                                .frame(width: 100, height: 100)
+                                        @unknown default:
+                                            Image("sample")
+                                                .resizable()
+                                                .frame(width: 100, height: 100)
+                                        }
+                                    }
+                                }
+                            } else {
+                                Image("sample")
+                                    .resizable()
+                                    .frame(width: 100, height: 100)
+                            }
                         }
+
+                    }
                 }
+
+
+
                 
             }
+            .onAppear {
+                fetchAlbums()
+            }
+            
         }
+        
     }
+    
     private func gridItems() -> [GridItem] {
         let gridItemSize: CGFloat = 100
         let spacing: CGFloat = 20

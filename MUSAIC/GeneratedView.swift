@@ -191,9 +191,6 @@ struct GeneratedView: View {
                 // Parse the album data from the snapshot's value
                 if let json = value["json"] as? String, let imageURL = value["imageURL"] as? String {
                     // Process the JSON string and handle the album artwork URL to populate the album properties
-                    print("GENERATED VIEW")
-                    print(json)
-                    print(imageURL)
                     album = generateViewWithCustomAlbum(jsonString: json, albumArtworkURL: imageURL)
                 }
             }
