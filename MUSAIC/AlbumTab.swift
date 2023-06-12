@@ -12,8 +12,10 @@ import FirebaseDatabase
 struct AlbumItem: Identifiable {
     let id: String
     var imageURL: String
+    var title: String
     var data: [String: Any]
 }
+
 
 
 struct AlbumTab: View {
@@ -37,12 +39,22 @@ struct AlbumTab: View {
                     albums = data
                     albumItems = data.compactMap { key, value in
                         guard let albumData = value as? [String: Any],
-                              let imageURL = albumData["imageURL"] as? String else {
+                              let imageURL = albumData["imageURL"] as? String,
+                              let jsonString = albumData["json"] as? String,
+                              let jsonData = jsonString.data(using: .utf8),
+                              let json = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any],
+                              let title = json["title"] as? String else {
                             return nil
                         }
-                        return AlbumItem(id: key, imageURL: imageURL, data: albumData)
+                        
+                        return AlbumItem(id: key, imageURL: imageURL, title: title, data: albumData)
                     }
+                    
+                    print("First album item:")
+                    print(albumItems[0])
+                    
                     if let urlString = albumItems.first?.imageURL {
+                        // ... existing code ...
                     } else {
                         print("No album items")
                     }
@@ -53,6 +65,8 @@ struct AlbumTab: View {
                 print("Snapshot does not exist")
             }
         }
+
+
     }
 
 
@@ -65,15 +79,50 @@ struct AlbumTab: View {
                 .ignoresSafeArea()
             
             VStack {
-                Image("sample")
-                    .resizable()
-                    .frame(width: 200, height: 200)
-                    .padding(.top, 40.0)
-                
-                Text("You light Up my world")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
+                if let firstAlbum = albumItems.first {
+                                    let imageURL = firstAlbum.imageURL
+                                    let title = firstAlbum.title as? String ?? ""
+                                    
+                                    AsyncImage(url: URL(string: imageURL)) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            Image("sample")
+                                                .resizable()
+                                                .frame(width: 200, height: 200)
+                                                .padding(.top, 40.0)
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .frame(width: 200, height: 200)
+                                                .padding(.top, 40.0)
+                                        case .failure:
+                                            Image("sample")
+                                                .resizable()
+                                                .frame(width: 200, height: 200)
+                                                .padding(.top, 40.0)
+                                        @unknown default:
+                                            Image("sample")
+                                                .resizable()
+                                                .frame(width: 200, height: 200)
+                                                .padding(.top, 40.0)
+                                        }
+                                    }
+                                    
+                                    Text(title)
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                } else {
+                                    Image("")
+                                        .resizable()
+                                        .frame(width: 200, height: 200)
+                                        .padding(.top, 40.0)
+                                    
+                                    Text("No albums available")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                }
                 
                 
                 HStack {
