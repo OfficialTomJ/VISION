@@ -24,7 +24,22 @@ struct AlbumTab: View {
     @State private var albums: [String: Any] = [:]
     @State private var albumItems: [AlbumItem] = []
     
-    @State private var selectedAlbumID: String? = nil
+    @State private var databaseRef: DatabaseReference
+    
+    init(databaseRef: DatabaseReference) {
+            self._databaseRef = State(initialValue: databaseRef)
+        }
+    
+    @State private var selectedAlbumID: String? = nil {
+            didSet {
+                if let albumID = selectedAlbumID {
+                    databaseRef = Database.database().reference().child("albums").child(Auth.auth().currentUser!.uid ).child(albumID)
+                    print(databaseRef)
+                }
+            }
+        }
+    
+    @State private var isNavigationActive = false
     
 
     func fetchAlbums() {
@@ -82,6 +97,7 @@ struct AlbumTab: View {
 
 
     var body: some View {
+        NavigationView {
         ZStack(alignment: .top){
             Image("Background")
                 .resizable()
@@ -89,84 +105,81 @@ struct AlbumTab: View {
             
             VStack {
                 if let selectedAlbum = albumItems.first(where: { $0.id == selectedAlbumID }) {
-                                    let imageURL = selectedAlbum.imageURL
-                                    let title = selectedAlbum.title as? String ?? ""
-                                    
-                                    AsyncImage(url: URL(string: imageURL)) { phase in
-                                        switch phase {
-                                        case .empty:
-                                            Image("sample")
-                                                .resizable()
-                                                .frame(width: 200, height: 200)
-                                                .padding(.top, 40.0)
-                                        case .success(let image):
-                                            image
-                                                .resizable()
-                                                .frame(width: 200, height: 200)
-                                                .padding(.top, 40.0)
-                                        case .failure:
-                                            Image("sample")
-                                                .resizable()
-                                                .frame(width: 200, height: 200)
-                                                .padding(.top, 40.0)
-                                        @unknown default:
-                                            Image("sample")
-                                                .resizable()
-                                                .frame(width: 200, height: 200)
-                                                .padding(.top, 40.0)
-                                        }
-                                    }
-                                    
-                                    Text(title)
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                } else {
-                                    Image("")
-                                        .resizable()
-                                        .frame(width: 200, height: 200)
-                                        .padding(.top, 40.0)
-                                    
-                                    Text("No albums available")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                }
+                    let imageURL = selectedAlbum.imageURL
+                    let title = selectedAlbum.title as? String ?? ""
+                    
+                    AsyncImage(url: URL(string: imageURL)) { phase in
+                        switch phase {
+                        case .empty:
+                            Image("sample")
+                                .resizable()
+                                .frame(width: 200, height: 200)
+                                .padding(.top, 40.0)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .frame(width: 200, height: 200)
+                                .padding(.top, 40.0)
+                        case .failure:
+                            Image("sample")
+                                .resizable()
+                                .frame(width: 200, height: 200)
+                                .padding(.top, 40.0)
+                        @unknown default:
+                            Image("sample")
+                                .resizable()
+                                .frame(width: 200, height: 200)
+                                .padding(.top, 40.0)
+                        }
+                    }
+                    
+                    Text(title)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                } else {
+                    Image("")
+                        .resizable()
+                        .frame(width: 200, height: 200)
+                        .padding(.top, 40.0)
+                    
+                    Text("No albums available")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                }
                 
                 
                 HStack {
                     Button(action: {
-                        // Add your play button action here
+                        isNavigationActive = true
                     }) {
                         Text("Play")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .padding(.bottom, 10.0)
-                        
-                        
                     }
                     
                     Button(action: {
-                        
+                        isNavigationActive = true
+                        print("Database Ref")
+                        print(databaseRef)
                     }){
-                        
                         Image("Play")
                             .resizable()
-                            .frame(width: 50, height:50)
+                            .frame(width: 50, height: 50)
                     }
-                    
-                    
-                    
                 }
                 .padding(.bottom, 0.0)
                 
                 
+                
                 Image("Bigger line") // Replace "Line" with the name of your line image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(height: 2)
-                                    .padding(.vertical, 30)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 2)
+                    .padding(.vertical, 30)
                 
                 
                 ScrollView(.vertical, showsIndicators: true) {
@@ -179,7 +192,6 @@ struct AlbumTab: View {
                             if let url = URL(string: imageURL) {
                                 Button(action: {
                                     selectedAlbumID = albumID
-                                    print(selectedAlbumID)
                                 }) {
                                     AsyncImage(url: url) { phase in
                                         switch phase {
@@ -208,17 +220,21 @@ struct AlbumTab: View {
                                     .frame(width: 100, height: 100)
                             }
                         }
-
+                        
                     }
                 }
-
-
-
-                
             }
             .onAppear {
                 fetchAlbums()
             }
+        }
+        .background(
+            NavigationLink(destination: GeneratedView(databaseRef: databaseRef), isActive: $isNavigationActive) {
+                EmptyView()
+            }
+
+                .hidden()
+        )
             
         }
         
@@ -232,8 +248,9 @@ struct AlbumTab: View {
         return Array(repeating: GridItem(.fixed(gridItemSize), spacing: spacing), count: columns)
     }
 }
-    struct AlbumView_Previews: PreviewProvider {
-        static var previews: some View {
-            AlbumTab()
-        }
+struct AlbumView_Previews: PreviewProvider {
+    static var previews: some View {
+        let databaseRef = Database.database().reference().child("albums").child(Auth.auth().currentUser!.uid)
+        return AlbumTab(databaseRef: databaseRef)
     }
+}
