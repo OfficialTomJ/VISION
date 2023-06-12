@@ -24,6 +24,8 @@ struct AlbumTab: View {
     @State private var albums: [String: Any] = [:]
     @State private var albumItems: [AlbumItem] = []
     
+    @State private var selectedAlbumID: String? = nil
+    
 
     func fetchAlbums() {
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -50,8 +52,15 @@ struct AlbumTab: View {
                         return AlbumItem(id: key, imageURL: imageURL, title: title, data: albumData)
                     }
                     
+                    if albumItems.isEmpty {
+                                        selectedAlbumID = nil
+                                    } else if selectedAlbumID == nil || !albumItems.contains(where: { $0.id == selectedAlbumID }) {
+                                        selectedAlbumID = albumItems.first?.id
+                                    }
+                    
                     print("First album item:")
-                    print(albumItems[0])
+                    print(albumItems)
+                    
                     
                     if let urlString = albumItems.first?.imageURL {
                         // ... existing code ...
@@ -79,9 +88,9 @@ struct AlbumTab: View {
                 .ignoresSafeArea()
             
             VStack {
-                if let firstAlbum = albumItems.first {
-                                    let imageURL = firstAlbum.imageURL
-                                    let title = firstAlbum.title as? String ?? ""
+                if let selectedAlbum = albumItems.first(where: { $0.id == selectedAlbumID }) {
+                                    let imageURL = selectedAlbum.imageURL
+                                    let title = selectedAlbum.title as? String ?? ""
                                     
                                     AsyncImage(url: URL(string: imageURL)) { phase in
                                         switch phase {
@@ -169,7 +178,8 @@ struct AlbumTab: View {
                             
                             if let url = URL(string: imageURL) {
                                 Button(action: {
-                                    // Handle button action
+                                    selectedAlbumID = albumID
+                                    print(selectedAlbumID)
                                 }) {
                                     AsyncImage(url: url) { phase in
                                         switch phase {
