@@ -96,14 +96,14 @@ struct GeneratedView: View {
                             Button(action: {
                                 isPlaying.toggle()
                             }) {
-                                Image(isPlaying ? "Pause" : "play")
+                                Image(isPlaying ? "Pause" : "Play")
                                     .resizable()
                                     .frame(width: 50, height: 50)
                             }
                             .padding(.vertical, 15.0)
                             Spacer()
                             Button(action: {}) {
-                                Image("upload")
+                                Image("Upload")
                                     .resizable()
                                     .frame(width: 35, height: 50)
                             }
