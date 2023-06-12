@@ -188,11 +188,12 @@ struct GeneratedView: View {
     private func loadAlbumData() {
         databaseRef.observeSingleEvent(of: .value) { snapshot in
             if let value = snapshot.value as? [String: Any] {
-                // Parse the album data from the snapshot's value
-                if let json = value["json"] as? String, let imageURL = value["imageURL"] as? String {
-                    // Process the JSON string and handle the album artwork URL to populate the album properties
-                    album = generateViewWithCustomAlbum(jsonString: json, albumArtworkURL: imageURL)
-                }
+                print("Generated Album Object:")
+                print(value)
+                let jsonString = value["json"] as? String ?? ""
+                let imageURL = value["imageURL"] as? String ?? ""
+                let album = generateViewWithCustomAlbum(jsonString: jsonString, albumArtworkURL: imageURL)
+                // Use the album object as needed
             }
         }
     }
@@ -208,36 +209,37 @@ struct GeneratedView: View {
             goals: [""]
         )
 
-        
         if let jsonData = jsonString.data(using: .utf8) {
             do {
-                let json = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
-                
-                // Extract values from JSON dictionary
-                let title = json?["title"] as? String ?? ""
-                let caption = json?["caption"] as? String ?? ""
-                let shortReflection = json?["short-reflection"] as? String ?? ""
-                let recommendation = json?["recommendation"] as? [String: Any]
-                let mindfulness = recommendation?["mindfulness"] as? String ?? ""
-                let shortDescription = recommendation?["short-description"] as? String ?? ""
-                let goals = json?["goals"] as? [String] ?? [""]
-                
-                // Create the Album object
-                album = Album(
-                    URL: albumArtworkURL,
-                    title: title,
-                    caption: caption,
-                    shortReflection: shortReflection,
-                    mindRecom: mindfulness,
-                    mindDescRecom: shortDescription,
-                    goals: goals
-                )
+                if let json = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] {
+                    // Extract values from JSON dictionary
+                    let title = json["title"] as? String ?? ""
+                    let caption = json["caption"] as? String ?? ""
+                    let shortReflection = json["short-reflection"] as? String ?? ""
+                    let recommendation = json["recommendation"] as? [String: Any]
+                    let mindfulness = recommendation?["mindfulness"] as? String ?? ""
+                    let shortDescription = recommendation?["short-description"] as? String ?? ""
+                    let goals = json["goals"] as? [String] ?? [""]
+                    
+                    // Create the Album object
+                    album = Album(
+                        URL: albumArtworkURL,
+                        title: title,
+                        caption: caption,
+                        shortReflection: shortReflection,
+                        mindRecom: mindfulness,
+                        mindDescRecom: shortDescription,
+                        goals: goals
+                    )
+                }
             } catch {
                 print("Error decoding JSON: \(error)")
             }
         }
         return album
     }
+
+
     
     struct GeneratedView_Previews: PreviewProvider {
         static var previews: some View {

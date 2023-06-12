@@ -325,11 +325,22 @@ struct ContentView: View {
                         return
                     }
                     
-                    // Store the download URL in your data structure or use it as needed
-                    if let downloadURL = url?.absoluteString {
-                        let data = [
-                            "json": self.summaryJSON,
-                            "imageURL": downloadURL // Add the download URL to the data
+                    if let downloadURL = url?.absoluteString,
+                       let jsonData = self.summaryJSON.data(using: .utf8),
+                       let json = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any],
+                       let goals = json["goals"] as? [String],
+                       let caption = json["caption"] as? String,
+                       let recommendation = json["recommendation"] as? [String: Any],
+                       let title = json["title"] as? String,
+                       let shortReflection = json["short-reflection"] as? String
+                    {
+                        let data: [String: Any] = [
+                            "goals": goals,
+                            "caption": caption,
+                            "recommendation": recommendation,
+                            "title": title,
+                            "short-reflection": shortReflection,
+                            "imageURL": downloadURL
                         ]
                         
                         self.databaseRef = Database.database().reference().child("albums").child(uid).childByAutoId()
@@ -343,6 +354,7 @@ struct ContentView: View {
                             self.isNavigationActive = true
                         }
                     }
+
                 }
             }
         }.resume()
