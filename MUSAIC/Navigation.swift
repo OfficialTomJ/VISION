@@ -25,7 +25,7 @@ struct Navigation: View {
             ContentView(databaseRef: $databaseRef)
                 .tabItem {
                     Image("BMusicNote")
-                }
+                }.padding(-10)
                 .tag(1)
             
             SettingsTab()
@@ -34,6 +34,7 @@ struct Navigation: View {
                 }
                 .tag(2)
         }
+        .onAppear() {UITabBar.appearance().backgroundColor = .lightText}
         .accentColor(.red) // Set the color of the selected tab
         .background(Color.black) // Set the background color of the TabView
         .onAppear(perform: checkFirebaseUser)
