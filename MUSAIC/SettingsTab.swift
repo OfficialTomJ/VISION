@@ -12,19 +12,39 @@ struct SettingsTab: View {
     @State private var userEmail: String = ""
     
     var body: some View {
-        VStack {
-            Text("SETTINGS TAB 🔩")
-            Text("User Email: \(userEmail)")
-                .padding()
-                .onAppear(perform: loadFirebaseUser)
+        VStack(alignment: .leading) {
+            Text("Settings")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.top, 50)
+                .padding(.leading)
+            List {
+                Section(header: Text("User Email")) {
+                    Text(userEmail)
+                        .padding()
+                        .onAppear(perform: loadFirebaseUser)
+                }
+                
+            }
+            .listStyle(GroupedListStyle())
+            
+            Spacer()
             
             Button(action: signOut) {
                 Text("Sign Out")
                     .foregroundColor(.red)
+                    .font(.headline)
                     .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .padding(.horizontal, 20)
+                    .shadow(radius: 5)
             }
+            .padding(.bottom, 20)
         }
     }
+
     
     func loadFirebaseUser() {
         if let currentUser = Auth.auth().currentUser {
