@@ -19,6 +19,8 @@ struct GeneratedView: View {
     
     @State private var album: Album
     
+    @State private var songs = ["life sucks","no it doesnt"] //temporary
+    
     init(databaseRef: DatabaseReference) {
         self.databaseRef = databaseRef
         self.jsonString = ""
@@ -36,7 +38,7 @@ struct GeneratedView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack(alignment: .center) {
             Image("Blur")
                 .resizable()
                 .frame(width: 450,height: 1000)
@@ -62,7 +64,7 @@ struct GeneratedView: View {
                                 EmptyView()
                             }
                         }
-                    }
+                    }.padding(.top,50)
                     
                     HStack {
                         
@@ -111,23 +113,48 @@ struct GeneratedView: View {
                         }
                     }
                     .padding(.bottom, 20)
+                   
+                    Group {
+                        ForEach(songs, id: \.self) { song in
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 50)
+                                        .fill(Color.white)
+                                        .padding(-10)
+                                        .opacity(0.2)
+                                    HStack() {
+                                        Text(song) //add album.songs here
+                                            .padding(.leading, 20)
+                                        Spacer()
+                                        Button(action: {}){
+                                            Image("spotify").resizable()
+                                                .frame(width: 47, height: 50)
+                                        }
+                                    }
+                                }
+                            
+                        }
+                    }.font(.title3)
+                        .foregroundColor(Color.white)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal,70)
+                        
                     
                     Text("Summary")
-                        .font(.body)
+                        .font(.title2)
                         .foregroundColor(Color.white)
                         .multilineTextAlignment(.leading)
-                        .padding([.leading, .trailing], 45.0)
+                        .padding(.vertical, 30.0)
                     Text(album.shortReflection)
                         .font(.body)
                         .foregroundColor(Color.white)
-                        .padding([.leading, .trailing], 30.0)
+                        .padding(30.0)
                     HStack{
                         Image("meditation")
                             .resizable()
                             .padding()
                             .frame(width: 80, height: 85)
                         Text(album.mindRecom)
-                            .font(.title)
+                            .font(.title3)
                             .foregroundColor(Color.white)
                         Spacer()
                     }.padding(.leading, 30.0)
@@ -166,21 +193,23 @@ struct GeneratedView: View {
                         .padding(.vertical, 2)
                         .padding(.leading,40)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                    ZStack (alignment: .center){
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(red: 1, green: 1, blue: 1))
+                            .frame(width: 200, height: 40)
+                            .opacity(0.3)
+                        Button(action: {}) {
+                            Text("Create New Album")
+                                .foregroundColor(Color.white)
+                                .foregroundColor(Color.white)
+                        }
+                    }.padding(.bottom, 100)
                 }
-                ZStack (alignment: .center){
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color(red: 1, green: 1, blue: 1))
-                        .frame(width: 200, height: 40)
-                        .opacity(0.3)
-                    Button(action: {}) {
-                        Text("Create New Album")
-                            .foregroundColor(Color.white)
-                            .foregroundColor(Color.white)
-                    }
-                }
-            }.padding(.vertical, 135)
+                
+            }.padding(.vertical, 100)
         }.onAppear {
             loadAlbumData()
+            
         }
         
     }

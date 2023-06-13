@@ -18,24 +18,18 @@ struct ContentView: View {
     
     @State private var text: String = ""
     @State private var speed = 0.0
-    @State private var prompt: String = "What Inspired you today?"
+    @State private var prompt: String = "What inspired you today?"
     @State private var thoughtsArray: [String] = []
     @State private var isToggled: Bool = false
     @State private var isNavigationActive = false
-    
     @State private var spinnerVisible = 0.0
-    
     @State private var isSummaryReady = false
     @State private var isImageReady = false
-    
     @State private var summaryJSON = ""
     @State private var albumArtworkURL = ""
-    
     @State private var errorAlertMessage: String = ""
     @State private var showErrorAlert: Bool = false
-    
     @StateObject private var thoughtsArrayObserver = ThoughtsArrayObserver()
-    
     @Binding var databaseRef: DatabaseReference
     
     var progressCounter: Int {
@@ -53,9 +47,7 @@ struct ContentView: View {
                 Image("Background")
                     .resizable()
                     .ignoresSafeArea()
-                VStack (alignment: .center)
-                {
-                    
+                VStack (alignment: .center){
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color(red: 0.1, green: 0.5, blue: 0.7))
                         .frame(width: 300, height: 15)
@@ -63,13 +55,12 @@ struct ContentView: View {
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color(red: 0.2, green: 0.5, blue: 0.7))
-                                .frame(width: 50, height: 15)
+                                .frame(width: calculateWidth(), height: 15)
                                 .opacity(0.9)
                                 .overlay(Text("\(progressCounter)")
                                     .font(.caption)
                                     .foregroundColor(Color.white)
                                     .multilineTextAlignment(.leading)))
-                    
                     HStack(){
                         Text(prompt)
                             .font(.title2)
@@ -81,9 +72,7 @@ struct ContentView: View {
                             Image("Reload").resizable()
                                 .foregroundColor(Color.white)
                                 .frame(width: 20,height: 20)
-                            
                         }
-                        
                     }.padding(.top, 240.0)
                     HStack {
                         TextField("Enter thoughts", text: $text)
@@ -99,13 +88,11 @@ struct ContentView: View {
                                 .frame(width: 25,height: 25)
                         }
                     }
-                    
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white)
                             .frame(width: 150, height: 20)
                             .opacity(0.6)
-                        
                         Slider(
                             value: $speed,
                             in: 0...100,
@@ -134,7 +121,6 @@ struct ContentView: View {
                 NavigationLink(destination: GeneratedView(databaseRef: databaseRef), isActive: $isNavigationActive) {
                     EmptyView()
                 }
-
                     .hidden()
             )
             .onAppear(perform: {
@@ -147,9 +133,7 @@ struct ContentView: View {
                             dismissButton: .default(Text("OK"))
                         )
                     }
-            
         }
-        
     }
     
     func getCurrentUserID() -> String {
@@ -209,7 +193,6 @@ struct ContentView: View {
         }
     }
 
-
     func generateImageIfNeeded() {
         guard isSummaryReady else {
             return
@@ -248,8 +231,6 @@ struct ContentView: View {
             }
         }
     }
-
-
     
     func checkNavigation() {
         if isNavigationActive {
@@ -347,9 +328,18 @@ struct ContentView: View {
             }
         }.resume()
     }
-
-
-
+    
+    func calculateWidth() -> CGFloat {
+           let minWidth: CGFloat = 100
+           let maxWidth: CGFloat = 300
+           
+           let progressValue = CGFloat(progressCounter)
+           let progressRange = CGFloat(5)
+           
+           let width = minWidth + (maxWidth - minWidth) * (progressValue / progressRange)
+           
+           return min(max(width, minWidth), maxWidth)
+       }
     
     func addThought() {
         if let currentUser = Auth.auth().currentUser {
@@ -382,7 +372,6 @@ struct ContentView_Previews: PreviewProvider {
         return ContentView(databaseRef: databaseRef)
     }
 }
-
 
 class ThoughtsArrayObserver: ObservableObject {
     private var databaseHandle: DatabaseHandle?
