@@ -17,16 +17,18 @@ struct Navigation: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            AlbumTab(databaseRef: databaseRef)
+            AlbumTab(databaseRef: databaseRef, selectedTab: $selectedTab)
                 .tabItem {
                     Image("headphones")
                 }
                 .tag(0)
+            
             ContentView(databaseRef: $databaseRef)
                 .tabItem {
                     Image("BMusicNote")
                 }
                 .tag(1)
+            
             SettingsTab()
                 .tabItem {
                     Image("BVector")
@@ -36,20 +38,20 @@ struct Navigation: View {
         .accentColor(.red) // Set the color of the selected tab
         .background(Color.black)
         .onAppear(perform: checkFirebaseUser)
-                .sheet(isPresented: $showModal) {
-                            SignInView()
-                        }
+        .sheet(isPresented: $showModal) {
+            SignInView()
+        }
     }
     
     func checkFirebaseUser() {
         Auth.auth().addStateDidChangeListener { auth, user in
-                    if let user = user {
-                        showModal = false
-                    } else {
-                        showModal = true
-                    }
-                }
+            if let user = user {
+                showModal = false
+            } else {
+                showModal = true
+            }
         }
+    }
 }
 
 struct Navigation_Previews: PreviewProvider {

@@ -142,7 +142,7 @@ struct ContentView: View {
             }
             .navigationBarHidden(true)
             .background(
-                NavigationLink(destination: GeneratedView(databaseRef: databaseRef), isActive: $isNavigationActive) {
+                NavigationLink(destination: GeneratedView(databaseRef: databaseRef, selectedTab: Binding.constant(1)), isActive: $isNavigationActive) {
                     EmptyView()
                 }
                     .hidden()
