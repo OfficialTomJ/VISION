@@ -41,11 +41,11 @@
 		466EF15A2A342FBA00B2E5A0 /* ThoughtsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF1512A342FBA00B2E5A0 /* ThoughtsTab.swift */; };
 		466EF15D2A342FBA00B2E5A0 /* AlbumTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF1542A342FBA00B2E5A0 /* AlbumTab.swift */; };
 		466EF15E2A342FBA00B2E5A0 /* SpotifySimilar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF1552A342FBA00B2E5A0 /* SpotifySimilar.swift */; };
+		466EF1622A3431A900B2E5A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 466EF1612A3431A900B2E5A0 /* Assets.xcassets */; };
 		466EF1682A344C0D00B2E5A0 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF1672A344C0D00B2E5A0 /* SignInView.swift */; };
 		466EF16A2A34952700B2E5A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF1692A34952600B2E5A0 /* ContentView.swift */; };
 		466EF16D2A3497B900B2E5A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 466EF16C2A3497B900B2E5A0 /* FirebaseStorage */; };
 		466EF16F2A3497B900B2E5A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 466EF16E2A3497B900B2E5A0 /* FirebaseStorageCombine-Community */; };
-		6168FFD92A37F1CA007D66A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6168FFD82A37F1CA007D66A9 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,9 +65,9 @@
 		466EF1512A342FBA00B2E5A0 /* ThoughtsTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThoughtsTab.swift; sourceTree = "<group>"; };
 		466EF1542A342FBA00B2E5A0 /* AlbumTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumTab.swift; sourceTree = "<group>"; };
 		466EF1552A342FBA00B2E5A0 /* SpotifySimilar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifySimilar.swift; sourceTree = "<group>"; };
+		466EF1612A3431A900B2E5A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
 		466EF1672A344C0D00B2E5A0 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		466EF1692A34952600B2E5A0 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		6168FFD82A37F1CA007D66A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +141,7 @@
 				464379F32A29B6D10009C0D7 /* MUSAICApp.swift */,
 				466D0B8A2A2EC69A00BB260A /* GPTGenerate.swift */,
 				463F5F762A31611E00B77900 /* DALLEGenerate.swift */,
-				6168FFD82A37F1CA007D66A9 /* Assets.xcassets */,
+				466EF1612A3431A900B2E5A0 /* Assets.xcassets */,
 			);
 			path = MUSAIC;
 			sourceTree = "<group>";
@@ -258,8 +258,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6168FFD92A37F1CA007D66A9 /* Assets.xcassets in Resources */,
 				463F5F722A315C0200B77900 /* GoogleService-Info.plist in Resources */,
+				466EF1622A3431A900B2E5A0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
