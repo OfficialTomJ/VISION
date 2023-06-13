@@ -47,6 +47,7 @@
 		466EF16A2A34952700B2E5A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF1692A34952600B2E5A0 /* ContentView.swift */; };
 		466EF16D2A3497B900B2E5A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 466EF16C2A3497B900B2E5A0 /* FirebaseStorage */; };
 		466EF16F2A3497B900B2E5A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 466EF16E2A3497B900B2E5A0 /* FirebaseStorageCombine-Community */; };
+		E8CE67342A37E62800AFF1A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8CE67332A37E62800AFF1A7 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 		466EF1552A342FBA00B2E5A0 /* SpotifySimilar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifySimilar.swift; sourceTree = "<group>"; };
 		466EF1672A344C0D00B2E5A0 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		466EF1692A34952600B2E5A0 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E8CE67332A37E62800AFF1A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Desktop/Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

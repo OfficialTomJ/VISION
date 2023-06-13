@@ -29,7 +29,6 @@ struct Navigation: View {
                     Label ("Thoughts", systemImage: "plus.bubble.fill")
                 }
                 .tag(1)
-            
             SettingsTab()
                 .tabItem {
                     Label ("Settings", systemImage: "gearshape.fill")

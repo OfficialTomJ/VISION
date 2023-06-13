@@ -108,6 +108,7 @@ struct GeneratedView: View {
             }.padding(.vertical, 100)
         }.onAppear {
             loadAlbumData()
+            
         }
     }
     

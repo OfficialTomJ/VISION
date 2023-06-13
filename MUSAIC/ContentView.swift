@@ -57,19 +57,22 @@ struct ContentView: View {
                     .resizable()
                     .ignoresSafeArea()
                 VStack (alignment: .center){
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color(red: 0.1, green: 0.5, blue: 0.7))
-                        .frame(width: 300, height: 15)
-                        .opacity(0.5)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color(red: 0.2, green: 0.5, blue: 0.7))
-                                .frame(width: 20, height: 15)
-                                .opacity(0.9)
-                                .overlay(Text("\(progressCounter)")
-                                    .font(.caption)
-                                    .foregroundColor(Color.white)
-                                    .multilineTextAlignment(.leading)))
+                            
+                    ProgressView(){
+                        Text(load)
+                            .font(.footnote)
+                            .foregroundColor(Color.white)
+                            .padding(.horizontal,80)
+                            .multilineTextAlignment(.center)
+                    }
+                    .scaleEffect(1.4)
+                        .tint(.white)
+                        .opacity(0.8)
+                        .padding(.top,80)
+                        .opacity(spinnerVisible)
+                    
+                    
+
                     
                     ProgressView(){
                         Text(load)
@@ -111,6 +114,18 @@ struct ContentView: View {
                                 .frame(width: 25,height: 25)
                         }
                     }
+                    
+                    HStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(red: 0.2, green: 0.5, blue: 0.7))
+                            .frame(width: 120, height: 25)
+                            .opacity(0.95)
+                            .overlay(Text("Thoughts: \(progressCounter) ")
+                                .font(.headline)
+                                .foregroundColor(Color.white)
+                                .multilineTextAlignment(.leading))
+                    }
+                    
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white)
