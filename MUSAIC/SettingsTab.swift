@@ -7,9 +7,11 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseDatabase
 
 struct SettingsTab: View {
     @State private var userEmail: String = ""
+    @State private var showingConfirmation = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -24,7 +26,26 @@ struct SettingsTab: View {
                         .padding()
                         .onAppear(perform: loadFirebaseUser)
                 }
-                
+                Section(header: Text("Clear Data")) {
+                                    Button(action: {
+                                        showingConfirmation = true
+                                    }) {
+                                        Text("Delete All Thoughts")
+                                            .foregroundColor(.red)
+                                            .font(.headline)
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+                                    .alert(isPresented: $showingConfirmation) {
+                                                            Alert(
+                                                                title: Text("Delete Thoughts"),
+                                                                message: Text("Are you sure you want to delete all your thoughts? This action cannot be undone."),
+                                                                primaryButton: .destructive(Text("Delete")) {
+                                                                    deleteThoughts()
+                                                                },
+                                                                secondaryButton: .cancel()
+                                                            )
+                                                        }
+                                }
             }
             .listStyle(GroupedListStyle())
             
@@ -54,6 +75,23 @@ struct SettingsTab: View {
             userEmail = "Not signed in"
         }
     }
+    
+    func deleteThoughts() {
+            guard let currentUser = Auth.auth().currentUser else {
+                return
+            }
+            
+            let userID = currentUser.uid
+            let databaseRef = Database.database().reference().child(userID).child("thoughts")
+            
+            databaseRef.removeValue { error, _ in
+                if let error = error {
+                    print("Error deleting thoughts: \(error)")
+                } else {
+                    print("Thoughts deleted successfully.")
+                }
+            }
+        }
     
     func signOut() {
         do {
