@@ -20,10 +20,14 @@ struct GeneratedView: View {
     
     @State private var album: Album
     
-    init(databaseRef: DatabaseReference) {
+    @Binding var selectedTab: Int
+    
+    init(databaseRef: DatabaseReference, selectedTab: Binding<Int>) {
         self.databaseRef = databaseRef
         self.jsonString = ""
         self.albumArtworkURL = ""
+        
+        _selectedTab = selectedTab
         
         _album = State(initialValue: Album(
             URL: "",
@@ -100,7 +104,9 @@ struct GeneratedView: View {
                         .fill(Color(red: 1, green: 1, blue: 1))
                         .frame(width: 200, height: 40)
                         .opacity(0.3)
-                    Button(action: {}) {
+                    Button(action: {
+                        selectedTab = 1
+                    }) {
                         Text("Create New Album")
                             .foregroundColor(Color.white)
                             .foregroundColor(Color.white)
@@ -185,6 +191,6 @@ struct GeneratedView: View {
 struct GeneratedView_Previews: PreviewProvider {
     static var previews: some View {
         let databaseRef = Database.database().reference()
-        return GeneratedView(databaseRef: databaseRef)
+        return GeneratedView(databaseRef: databaseRef, selectedTab: Binding.constant(0))
     }
 }

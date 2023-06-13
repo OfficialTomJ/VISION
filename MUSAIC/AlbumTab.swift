@@ -26,8 +26,11 @@ struct AlbumTab: View {
     
     @State private var databaseRef: DatabaseReference
     
-    init(databaseRef: DatabaseReference) {
+    @Binding var selectedTab: Int
+    
+    init(databaseRef: DatabaseReference, selectedTab: Binding<Int>) {
             self._databaseRef = State(initialValue: databaseRef)
+            _selectedTab = selectedTab
         }
     
     @State private var selectedAlbumID: String? = nil {
@@ -229,7 +232,7 @@ struct AlbumTab: View {
             }
         }
         .background(
-            NavigationLink(destination: GeneratedView(databaseRef: databaseRef), isActive: $isNavigationActive) {
+            NavigationLink(destination: GeneratedView(databaseRef: databaseRef, selectedTab: $selectedTab), isActive: $isNavigationActive) {
                 EmptyView()
             }
 
@@ -251,6 +254,6 @@ struct AlbumTab: View {
 struct AlbumView_Previews: PreviewProvider {
     static var previews: some View {
         let databaseRef = Database.database().reference().child("albums").child(Auth.auth().currentUser!.uid)
-        return AlbumTab(databaseRef: databaseRef)
+        return AlbumTab(databaseRef: databaseRef, selectedTab: Binding.constant(0))
     }
 }
