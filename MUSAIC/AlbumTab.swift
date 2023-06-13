@@ -157,7 +157,7 @@ struct AlbumTab: View {
                     Button(action: {
                         isNavigationActive = true
                     }) {
-                        Text("Play")
+                        Text("View")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
