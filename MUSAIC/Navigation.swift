@@ -27,7 +27,6 @@ struct Navigation: View {
                     Image("BMusicNote")
                 }
                 .tag(1)
-            
             SettingsTab()
                 .tabItem {
                     Image("BVector")
@@ -35,12 +34,13 @@ struct Navigation: View {
                 .tag(2)
         }
         .accentColor(.red) // Set the color of the selected tab
-        .background(Color.black) // Set the background color of the TabView
+        .background(Color.black)
         .onAppear(perform: checkFirebaseUser)
                 .sheet(isPresented: $showModal) {
                             SignInView()
                         }
     }
+    
     func checkFirebaseUser() {
         Auth.auth().addStateDidChangeListener { auth, user in
                     if let user = user {
