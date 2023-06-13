@@ -75,7 +75,7 @@ struct GeneratedView: View {
                             Text(album.title)
                                 .font(.title)
                                 .foregroundColor(Color.white)
-                                .padding(.bottom, 5.0)
+                                .padding(.bottom, 2.0)
                             Text(album.caption)
                                 .font(.subheadline)
                                 .foregroundColor(Color.white)
@@ -85,7 +85,7 @@ struct GeneratedView: View {
                         }
                         Spacer()
                     }
-                    .padding(.leading, 35.0)
+                    .padding(.leading, 30.0)
                     
                     ZStack {
                         RoundedRectangle(cornerRadius: 0)
@@ -110,7 +110,7 @@ struct GeneratedView: View {
                             Spacer()
                         }
                     }
-                    .padding(.bottom, 35)
+                    .padding(.bottom, 20)
                     
                     Text("Summary")
                         .font(.body)
@@ -130,7 +130,7 @@ struct GeneratedView: View {
                             .font(.title)
                             .foregroundColor(Color.white)
                         Spacer()
-                    }.padding(.leading, 35.0)
+                    }.padding(.leading, 30.0)
                     Group {
                         
                         Text(album.mindDescRecom)
@@ -148,7 +148,7 @@ struct GeneratedView: View {
                                 .foregroundColor(Color.white)
                                 .padding(.vertical, 2.0)
                             Spacer()
-                        }.padding(.leading, 35.0)
+                        }.padding(.leading, 30.0)
                         
                     }
                     Group {
@@ -159,13 +159,12 @@ struct GeneratedView: View {
                             }
                             .font(.headline)
                             .foregroundColor(Color.white)
-                            .padding(.leading, 25.0)
                         }
                     }.font(.headline)
                         .foregroundColor(Color.white)
                         .multilineTextAlignment(.leading)
                         .padding(.vertical, 2)
-                        .padding(.leading,45)
+                        .padding(.leading,40)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 ZStack (alignment: .center){
