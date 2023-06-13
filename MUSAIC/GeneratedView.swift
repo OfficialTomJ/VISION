@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import Kingfisher
 
 struct GeneratedView: View {
     
@@ -19,10 +20,14 @@ struct GeneratedView: View {
     
     @State private var album: Album
     
-    init(databaseRef: DatabaseReference) {
+    @Binding var selectedTab: Int
+    
+    init(databaseRef: DatabaseReference, selectedTab: Binding<Int>) {
         self.databaseRef = databaseRef
         self.jsonString = ""
         self.albumArtworkURL = ""
+        
+        _selectedTab = selectedTab
         
         _album = State(initialValue: Album(
             URL: "",
@@ -35,72 +40,69 @@ struct GeneratedView: View {
         ))
     }
     
+    @State private var isImageSaved = false
+    
     var body: some View {
         ZStack(alignment: .center) {
             Image("Blur")
                 .resizable()
-                .frame(width: 450,height: 1000)
+                .frame(width: 450, height: 1000)
                 .ignoresSafeArea(.all)
             ScrollView {
                 VStack(alignment: .leading) {
                     VStack(alignment: .center) {
-                        Text("24 May 2023")
-                            .font(.title3)
-                            .foregroundColor(Color.white)
-                        AsyncImage(url: URL(string: album.URL)) { phase in
-                            switch phase {
-                            case .empty:
-                                ProgressView()
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .padding(.bottom)
-                                    .frame(width: 360, height: 360)
-                            case .failure(let error):
-                                Text("Failed to load image: \(error.localizedDescription)")
-                            @unknown default:
-                                EmptyView()
-                            }
+                        if let url = URL(string: album.URL) {
+                            KFImage(url)
+                                .resizable()
+                                .padding(.bottom)
+                                .frame(width: 360, height: 360)
+                        } else {
+                            Text("Invalid image URL")
                         }
-                    }.padding(.top,50)
+                    }.padding(.top, 50)
                     
                     HStack {
                         VStack(alignment: .leading) {
                             Text(album.title)
                                 .font(.title)
-                                .foregroundColor(Color.white)
+                                .foregroundColor(.white)
                                 .padding(.bottom, 2.0)
                             Text(album.caption)
                                 .font(.title2)
-                                .foregroundColor(Color.white)
+                                .foregroundColor(.white)
                                 .multilineTextAlignment(.leading)
                                 .italic()
                                 .padding(.bottom, 10.0)
                             HStack(spacing: 30) {
-                                Button(action: {}) {
+                                Button(action: {
+                                    saveImageToGallery()
+                                }) {
                                     Image("Upload")
                                         .resizable()
-                                    .frame(width: 25, height: 35)}
-                                Text("Save to gallery")
-                                    .font(.headline)
-                                    .foregroundColor(Color.white)
+                                        .frame(width: 25, height: 35)
+                                }
+                                Button(action: {
+                                    saveImageToGallery()
+                                }) {
+                                    Text(isImageSaved ? "Image Saved" : "Save to gallery")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                }
                             }
-                           
                         }.padding(.leading, 20)
                     }
-                    
-                    
-                    
                 }.padding(20.0)
                 ZStack (alignment: .center){
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color(red: 1, green: 1, blue: 1))
                         .frame(width: 200, height: 40)
                         .opacity(0.3)
-                    Button(action: {}) {
+                    Button(action: {
+                        selectedTab = 1
+                    }) {
                         Text("Create New Album")
-                            .foregroundColor(Color.white)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(.white)
+                            .foregroundColor(.white)
                     }
                 }.padding(.bottom, 100)
             }.padding(.vertical, 100)
@@ -108,7 +110,6 @@ struct GeneratedView: View {
             loadAlbumData()
             
         }
-        
     }
     
     private func loadAlbumData() {
@@ -122,7 +123,7 @@ struct GeneratedView: View {
             }
         }
     }
-
+    
     func generateViewWithCustomAlbum(jsonString: String, albumArtworkURL: String) -> Album {
         var album = Album(
             URL: "",
@@ -133,7 +134,6 @@ struct GeneratedView: View {
             mindDescRecom: "",
             goals: [""]
         )
-
         
         if let jsonData = jsonString.data(using: .utf8) {
             do {
@@ -165,11 +165,26 @@ struct GeneratedView: View {
         return album
     }
     
-    struct GeneratedView_Previews: PreviewProvider {
-        static var previews: some View {
-            let databaseRef = Database.database().reference()
-            return GeneratedView(databaseRef: databaseRef)
+    private func saveImageToGallery() {
+        guard let url = URL(string: album.URL) else {
+            return
+        }
+        
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url),
+               let image = UIImage(data: data) {
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                DispatchQueue.main.async {
+                    isImageSaved = true
+                }
+            }
         }
     }
-    
+}
+
+struct GeneratedView_Previews: PreviewProvider {
+    static var previews: some View {
+        let databaseRef = Database.database().reference()
+        return GeneratedView(databaseRef: databaseRef, selectedTab: Binding.constant(0))
+    }
 }

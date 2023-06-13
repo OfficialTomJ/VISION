@@ -72,7 +72,21 @@ struct ContentView: View {
                         .opacity(spinnerVisible)
                     
                     
+
                     
+                    ProgressView(){
+                        Text(load)
+                            .font(.footnote)
+                            .foregroundColor(Color.white)
+                            .padding(.horizontal,80)
+                            .multilineTextAlignment(.center)
+                    }
+                    .scaleEffect(1.4)
+                        .tint(.white)
+                        .opacity(0.8)
+                        .padding(.top,80)
+                        .opacity(spinnerVisible)
+
                     HStack(){
                         Text(prompt)
                             .font(.title2)
@@ -143,7 +157,7 @@ struct ContentView: View {
             }
             .navigationBarHidden(true)
             .background(
-                NavigationLink(destination: GeneratedView(databaseRef: databaseRef), isActive: $isNavigationActive) {
+                NavigationLink(destination: GeneratedView(databaseRef: databaseRef, selectedTab: Binding.constant(1)), isActive: $isNavigationActive) {
                     EmptyView()
                 }
                     .hidden()
