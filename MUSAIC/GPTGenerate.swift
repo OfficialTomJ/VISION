@@ -12,7 +12,7 @@ func generateGPT(prompt: String, completion: @escaping (Result<String, Error>) -
     let endpoint = "https://api.openai.com/v1/engines/text-davinci-002/completions"
     let parameters: [String: Any] = [
         "prompt": prompt,
-        "max_tokens": 50
+        "max_tokens": 500
     ]
 
     guard let url = URL(string: endpoint) else {
@@ -46,7 +46,6 @@ func generateGPT(prompt: String, completion: @escaping (Result<String, Error>) -
 
         do {
             let responseJSON = try JSONSerialization.jsonObject(with: data, options: [])
-            print(responseJSON) // Print the response JSON for debugging
 
             if let responseObject = responseJSON as? [String: Any],
                let choices = responseObject["choices"] as? [[String: Any]],

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseDatabase
 
 class AppDelegate: NSObject, UIApplicationDelegate {
 
@@ -23,7 +24,8 @@ struct MUSAICApp: App {
     
     var body: some Scene {
         WindowGroup {
-            SpotifyVerify()
+            let databaseRef = Binding.constant(Database.database().reference())
+            Navigation(databaseRef: databaseRef)
         }
     }
 }
