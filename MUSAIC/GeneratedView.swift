@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Firebase
-import UIKit
+import Kingfisher
 
 struct GeneratedView: View {
     
@@ -46,37 +46,30 @@ struct GeneratedView: View {
         ZStack(alignment: .center) {
             Image("Blur")
                 .resizable()
-                .frame(width: 450,height: 1000)
+                .frame(width: 450, height: 1000)
                 .ignoresSafeArea(.all)
             ScrollView {
                 VStack(alignment: .leading) {
                     VStack(alignment: .center) {
-                        AsyncImage(url: URL(string: album.URL)) { phase in
-                            switch phase {
-                            case .empty:
-                                ProgressView()
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .padding(.bottom)
-                                    .frame(width: 360, height: 360)
-                            case .failure(let error):
-                                Text("Failed to load image: \(error.localizedDescription)")
-                            @unknown default:
-                                EmptyView()
-                            }
+                        if let url = URL(string: album.URL) {
+                            KFImage(url)
+                                .resizable()
+                                .padding(.bottom)
+                                .frame(width: 360, height: 360)
+                        } else {
+                            Text("Invalid image URL")
                         }
-                    }.padding(.top,50)
+                    }.padding(.top, 50)
                     
                     HStack {
                         VStack(alignment: .leading) {
                             Text(album.title)
                                 .font(.title)
-                                .foregroundColor(Color.white)
+                                .foregroundColor(.white)
                                 .padding(.bottom, 2.0)
                             Text(album.caption)
                                 .font(.title2)
-                                .foregroundColor(Color.white)
+                                .foregroundColor(.white)
                                 .multilineTextAlignment(.leading)
                                 .italic()
                                 .padding(.bottom, 10.0)
@@ -89,12 +82,12 @@ struct GeneratedView: View {
                                         .frame(width: 25, height: 35)
                                 }
                                 Button(action: {
-                                        saveImageToGallery()
-                                    }) {
-                                        Text(isImageSaved ? "Image Saved" : "Save to gallery")
-                                            .font(.headline)
-                                            .foregroundColor(Color.white)
-                                    }
+                                    saveImageToGallery()
+                                }) {
+                                    Text(isImageSaved ? "Image Saved" : "Save to gallery")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                }
                             }
                         }.padding(.leading, 20)
                     }
@@ -108,8 +101,8 @@ struct GeneratedView: View {
                         selectedTab = 1
                     }) {
                         Text("Create New Album")
-                            .foregroundColor(Color.white)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(.white)
+                            .foregroundColor(.white)
                     }
                 }.padding(.bottom, 100)
             }.padding(.vertical, 100)

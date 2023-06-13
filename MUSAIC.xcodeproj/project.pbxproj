@@ -36,6 +36,7 @@
 		46437A492A29BF280009C0D7 /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A482A29BF280009C0D7 /* FirebaseInstallations */; };
 		46437A4B2A29BF280009C0D7 /* FirebaseMLModelDownloader in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A4A2A29BF280009C0D7 /* FirebaseMLModelDownloader */; };
 		4652A71F2A3846230045F032 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4652A71E2A3846230045F032 /* Assets.xcassets */; };
+		4652A7222A3859440045F032 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4652A7212A3859440045F032 /* Kingfisher */; };
 		466D0B8B2A2EC69A00BB260A /* GPTGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466D0B8A2A2EC69A00BB260A /* GPTGenerate.swift */; };
 		466EF1582A342FBA00B2E5A0 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF14F2A342FB900B2E5A0 /* Navigation.swift */; };
 		466EF1592A342FBA00B2E5A0 /* SettingsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF1502A342FBA00B2E5A0 /* SettingsTab.swift */; };
@@ -84,6 +85,7 @@
 				46437A4B2A29BF280009C0D7 /* FirebaseMLModelDownloader in Frameworks */,
 				46437A3F2A29BF280009C0D7 /* FirebaseFirestoreSwift in Frameworks */,
 				46437A2B2A29BF280009C0D7 /* FirebaseAppCheck in Frameworks */,
+				4652A7222A3859440045F032 /* Kingfisher in Frameworks */,
 				46437A292A29BF280009C0D7 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				466EF16F2A3497B900B2E5A0 /* FirebaseStorageCombine-Community in Frameworks */,
 				46437A2F2A29BF280009C0D7 /* FirebaseAuth in Frameworks */,
@@ -211,6 +213,7 @@
 				463F5F742A315C3600B77900 /* SpotifyAPI */,
 				466EF16C2A3497B900B2E5A0 /* FirebaseStorage */,
 				466EF16E2A3497B900B2E5A0 /* FirebaseStorageCombine-Community */,
+				4652A7212A3859440045F032 /* Kingfisher */,
 			);
 			productName = MUSAIC;
 			productReference = 464379F02A29B6D10009C0D7 /* MUSAIC.app */;
@@ -243,6 +246,7 @@
 			packageReferences = (
 				46437A212A29BF280009C0D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				463F5F732A315C3600B77900 /* XCRemoteSwiftPackageReference "SpotifyAPI" */,
+				4652A7202A3859440045F032 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 464379F12A29B6D10009C0D7 /* Products */;
 			projectDirPath = "";
@@ -501,6 +505,14 @@
 				minimumVersion = 10.0.0;
 			};
 		};
+		4652A7202A3859440045F032 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -613,6 +625,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 46437A212A29BF280009C0D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMLModelDownloader;
+		};
+		4652A7212A3859440045F032 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4652A7202A3859440045F032 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		466EF16C2A3497B900B2E5A0 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
