@@ -19,8 +19,6 @@ struct GeneratedView: View {
     
     @State private var album: Album
     
-    @State private var songs = ["life sucks","no it doesnt"] //temporary
-    
     init(databaseRef: DatabaseReference) {
         self.databaseRef = databaseRef
         self.jsonString = ""
@@ -44,7 +42,7 @@ struct GeneratedView: View {
                 .frame(width: 450,height: 1000)
                 .ignoresSafeArea(.all)
             ScrollView {
-                VStack(alignment: .center) {
+                VStack(alignment: .leading) {
                     VStack(alignment: .center) {
                         Text("24 May 2023")
                             .font(.title3)
@@ -57,7 +55,7 @@ struct GeneratedView: View {
                                 image
                                     .resizable()
                                     .padding(.bottom)
-                                    .frame(width: 300, height: 300)
+                                    .frame(width: 360, height: 360)
                             case .failure(let error):
                                 Text("Failed to load image: \(error.localizedDescription)")
                             @unknown default:
@@ -67,145 +65,44 @@ struct GeneratedView: View {
                     }.padding(.top,50)
                     
                     HStack {
-                        
-                        Image("Album")
-                            .resizable()
-                            .padding()
-                            .frame(width: 72, height: 90)
-                        
                         VStack(alignment: .leading) {
                             Text(album.title)
                                 .font(.title)
                                 .foregroundColor(Color.white)
                                 .padding(.bottom, 2.0)
                             Text(album.caption)
-                                .font(.subheadline)
+                                .font(.title2)
                                 .foregroundColor(Color.white)
                                 .multilineTextAlignment(.leading)
                                 .italic()
                                 .padding(.bottom, 10.0)
-                        }
-                        Spacer()
+                            HStack(spacing: 30) {
+                                Button(action: {}) {
+                                    Image("Upload")
+                                        .resizable()
+                                    .frame(width: 25, height: 35)}
+                                Text("Save to gallery")
+                                    .font(.headline)
+                                    .foregroundColor(Color.white)
+                            }
+                           
+                        }.padding(.leading, 20)
                     }
-                    .padding(.leading, 30.0)
                     
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 0)
-                            .fill(Color.white)
-                            .opacity(0.2)
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                isPlaying.toggle()
-                            }) {
-                                Image(isPlaying ? "Pause" : "Play")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                            }
-                            .padding(.vertical, 15.0)
-                            Spacer()
-                            Button(action: {}) {
-                                Image("Upload")
-                                    .resizable()
-                                    .frame(width: 35, height: 50)
-                            }
-                            Spacer()
-                        }
-                    }
-                    .padding(.bottom, 20)
-                   
-                    Group {
-                        ForEach(songs, id: \.self) { song in
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 50)
-                                        .fill(Color.white)
-                                        .padding(-10)
-                                        .opacity(0.2)
-                                    HStack() {
-                                        Text(song) //add album.songs here
-                                            .padding(.leading, 20)
-                                        Spacer()
-                                        Button(action: {}){
-                                            Image("spotify").resizable()
-                                                .frame(width: 47, height: 50)
-                                        }
-                                    }
-                                }
-                            
-                        }
-                    }.font(.title3)
-                        .foregroundColor(Color.white)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal,70)
-                        
                     
-                    Text("Summary")
-                        .font(.title2)
-                        .foregroundColor(Color.white)
-                        .multilineTextAlignment(.leading)
-                        .padding(.vertical, 30.0)
-                    Text(album.shortReflection)
-                        .font(.body)
-                        .foregroundColor(Color.white)
-                        .padding(30.0)
-                    HStack{
-                        Image("meditation")
-                            .resizable()
-                            .padding()
-                            .frame(width: 80, height: 85)
-                        Text(album.mindRecom)
-                            .font(.title3)
+                    
+                }.padding(20.0)
+                ZStack (alignment: .center){
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color(red: 1, green: 1, blue: 1))
+                        .frame(width: 200, height: 40)
+                        .opacity(0.3)
+                    Button(action: {}) {
+                        Text("Create New Album")
                             .foregroundColor(Color.white)
-                        Spacer()
-                    }.padding(.leading, 30.0)
-                    Group {
-                        
-                        Text(album.mindDescRecom)
-                            .font(.body)
                             .foregroundColor(Color.white)
-                            .padding([.leading, .trailing], 45.0)
-                            .multilineTextAlignment(.leading)
-                        HStack{
-                            Image("Goals")
-                                .resizable()
-                                .padding()
-                                .frame(width: 75, height: 75)
-                            Text("Challenge Yourself")
-                                .font(.title)
-                                .foregroundColor(Color.white)
-                                .padding(.vertical, 2.0)
-                            Spacer()
-                        }.padding(.leading, 30.0)
-                        
                     }
-                    Group {
-                        ForEach(album.goals, id: \.self) { goal in
-                            HStack {
-                                Image(systemName: "square")
-                                Text(goal)
-                            }
-                            .font(.headline)
-                            .foregroundColor(Color.white)
-                        }
-                    }.font(.headline)
-                        .foregroundColor(Color.white)
-                        .multilineTextAlignment(.leading)
-                        .padding(.vertical, 2)
-                        .padding(.leading,40)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    ZStack (alignment: .center){
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(red: 1, green: 1, blue: 1))
-                            .frame(width: 200, height: 40)
-                            .opacity(0.3)
-                        Button(action: {}) {
-                            Text("Create New Album")
-                                .foregroundColor(Color.white)
-                                .foregroundColor(Color.white)
-                        }
-                    }.padding(.bottom, 100)
-                }
-                
+                }.padding(.bottom, 100)
             }.padding(.vertical, 100)
         }.onAppear {
             loadAlbumData()

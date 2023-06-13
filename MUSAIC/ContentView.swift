@@ -13,12 +13,21 @@ var prompts: [String] = [
     "What piece of advice motivated you today?"
 ]
 
+var loadTexts : [String] = [
+    "Inspiration takes time",
+    "Life is like a box of chocloates",
+    "The best things in life take time to load",
+    "Creatings something beautiful requires patientce",
+    "I'm not slow, I'm just building up suspense",
+]
+
 struct ContentView: View {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     @State private var text: String = ""
     @State private var speed = 0.0
     @State private var prompt: String = "What inspired you today?"
+    @State private var load: String = "The best things in life take time to load"
     @State private var thoughtsArray: [String] = []
     @State private var isToggled: Bool = false
     @State private var isNavigationActive = false
@@ -55,12 +64,26 @@ struct ContentView: View {
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color(red: 0.2, green: 0.5, blue: 0.7))
-                                .frame(width: calculateWidth(), height: 15)
+                                .frame(width: 20, height: 15)
                                 .opacity(0.9)
                                 .overlay(Text("\(progressCounter)")
                                     .font(.caption)
                                     .foregroundColor(Color.white)
                                     .multilineTextAlignment(.leading)))
+                    
+                    ProgressView(){
+                        Text(load)
+                            .font(.footnote)
+                            .foregroundColor(Color.white)
+                            .padding(.horizontal,80)
+                            .multilineTextAlignment(.center)
+                    }
+                    .scaleEffect(1.4)
+                        .tint(.white)
+                        .opacity(0.8)
+                        .padding(.top,80)
+                        .opacity(spinnerVisible)
+
                     HStack(){
                         Text(prompt)
                             .font(.title2)
@@ -73,7 +96,7 @@ struct ContentView: View {
                                 .foregroundColor(Color.white)
                                 .frame(width: 20,height: 20)
                         }
-                    }.padding(.top, 240.0)
+                    }.padding(.top, 100.0)
                     HStack {
                         TextField("Enter thoughts", text: $text)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -98,6 +121,7 @@ struct ContentView: View {
                             in: 0...100,
                             onEditingChanged: { editingChanged in
                                 if speed == 100 && !editingChanged {
+                                    shuffleLoading(text: $load)
                                     generateSummaryAndImage()
                                 }}
                         )
@@ -329,17 +353,6 @@ struct ContentView: View {
         }.resume()
     }
     
-    func calculateWidth() -> CGFloat {
-           let minWidth: CGFloat = 100
-           let maxWidth: CGFloat = 300
-           
-           let progressValue = CGFloat(progressCounter)
-           let progressRange = CGFloat(5)
-           
-           let width = minWidth + (maxWidth - minWidth) * (progressValue / progressRange)
-           
-           return min(max(width, minWidth), maxWidth)
-       }
     
     func addThought() {
         if let currentUser = Auth.auth().currentUser {
@@ -353,6 +366,15 @@ struct ContentView: View {
             
             text = ""
         }
+    }
+    
+    func shuffleLoading(text: Binding<String>) {
+        var newLoad = text.wrappedValue
+        while newLoad == text.wrappedValue {
+            loadTexts.shuffle()
+            newLoad = loadTexts.first ?? ""
+        }
+        text.wrappedValue = newLoad
     }
     
     func shuffleThought(prompt: Binding<String>) {
