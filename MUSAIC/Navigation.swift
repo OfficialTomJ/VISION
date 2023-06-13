@@ -19,24 +19,26 @@ struct Navigation: View {
         TabView(selection: $selectedTab) {
             AlbumTab(databaseRef: databaseRef, selectedTab: $selectedTab)
                 .tabItem {
-                    Image("headphones")
+                    Label ("Album", systemImage: "photo")
+                        .accentColor(.black)
                 }
                 .tag(0)
             
             ContentView(databaseRef: $databaseRef)
                 .tabItem {
-                    Image("BMusicNote")
+                    Label ("Thoughts", systemImage: "plus.bubble.fill")
                 }
                 .tag(1)
             
             SettingsTab()
                 .tabItem {
-                    Image("BVector")
+                    Label ("Settings", systemImage: "gearshape.fill")
                 }
                 .tag(2)
         }
-        .accentColor(.red) // Set the color of the selected tab
-        .background(Color.black)
+        .onAppear() {UITabBar.appearance().backgroundColor = .lightText}
+        .accentColor(.blue) // Set the color of the selected tab
+        .background(Color.black) // Set the background color of the TabView
         .onAppear(perform: checkFirebaseUser)
         .sheet(isPresented: $showModal) {
             SignInView()
