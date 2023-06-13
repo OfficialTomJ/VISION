@@ -57,22 +57,6 @@ struct ContentView: View {
                     .resizable()
                     .ignoresSafeArea()
                 VStack (alignment: .center){
-                            
-                    ProgressView(){
-                        Text(load)
-                            .font(.footnote)
-                            .foregroundColor(Color.white)
-                            .padding(.horizontal,80)
-                            .multilineTextAlignment(.center)
-                    }
-                    .scaleEffect(1.4)
-                        .tint(.white)
-                        .opacity(0.8)
-                        .padding(.top,80)
-                        .opacity(spinnerVisible)
-                    
-                    
-
                     
                     ProgressView(){
                         Text(load)
@@ -85,7 +69,7 @@ struct ContentView: View {
                         .tint(.white)
                         .opacity(0.8)
                         .padding(.top,80)
-                        .opacity(spinnerVisible)
+                        .opacity(0.0)
 
                     HStack(){
                         Text(prompt)
@@ -153,7 +137,21 @@ struct ContentView: View {
                     Text("...Or keep going")
                         .font(.caption)
                         .foregroundColor(Color.white)
+                    ProgressView(){
+                        Text(load)
+                            .font(.footnote)
+                            .foregroundColor(Color.white)
+                            .padding(.horizontal,80)
+                            .multilineTextAlignment(.center)
+                    }
+                    .scaleEffect(1.4)
+                        .tint(.white)
+                        .opacity(0.8)
+                        .padding(.top,40)
+                        .opacity(spinnerVisible)
+                    
                 }.padding(.top, 50.0)
+                
             }
             .navigationBarHidden(true)
             .background(
@@ -184,6 +182,7 @@ struct ContentView: View {
     }
 
     func generateSummaryAndImage() {
+        load = "The best things in life take time to load"
         spinnerVisible = 1.0
         var summaryPrompt = "You are a bot that only responds in JSON format. Based on these collected thoughts, "
         for thought in thoughtsArray {
@@ -223,11 +222,13 @@ struct ContentView: View {
                     // Show error
                     errorAlertMessage = "Something went wrong when generating the album. Add more thoughts or try again."
                     showErrorAlert = true
+                    spinnerVisible = 0.0
                 }
             case .failure(let error):
                 print("Error generating text: \(error)")
                 errorAlertMessage = "Our AI generator is having some tech issues. Add more thoughts or try again."
                 showErrorAlert = true
+                spinnerVisible = 0.0
             }
         }
     }
@@ -236,6 +237,7 @@ struct ContentView: View {
         guard isSummaryReady else {
             return
         }
+        load = "Painting your beautiful picture"
         
         var imgPrompt = "Based on these collected thoughts, "
         for thought in thoughtsArray {
@@ -267,6 +269,7 @@ struct ContentView: View {
                 print("Error generating image: \(error)")
                 errorAlertMessage = "Something went wrong when generating the album. Add more thoughts or try again."
                 showErrorAlert = true
+                spinnerVisible = 0.0
             }
         }
     }
@@ -281,14 +284,13 @@ struct ContentView: View {
             isSummaryReady = false
             isImageReady = false
             
-            spinnerVisible = 0.0
-            
             // Check if already uploaded to Firebase
             let databaseRef = Database.database().reference().child("data")
             databaseRef.observeSingleEvent(of: .value) { (snapshot) in
                 if snapshot.exists() {
                     // Data already exists in Firebase, proceed with navigation
                     self.isNavigationActive = true
+                    spinnerVisible = 0.0
                 } else {
                     // Upload JSON and image URL to Firebase
                     self.uploadDataToFirebase()
@@ -298,6 +300,7 @@ struct ContentView: View {
     }
 
     func uploadDataToFirebase() {
+        load = "Adding some final touches. Won't be long!"
         guard let uid = Auth.auth().currentUser?.uid else {
             self.errorAlertMessage = "User not authenticated"
             self.showErrorAlert = true
@@ -308,6 +311,7 @@ struct ContentView: View {
         guard let url = URL(string: albumArtworkURL) else {
             self.errorAlertMessage = "Invalid URL"
             self.showErrorAlert = true
+            spinnerVisible = 0.0
             return
         }
         
@@ -315,12 +319,14 @@ struct ContentView: View {
             if let error = error {
                 self.errorAlertMessage = error.localizedDescription
                 self.showErrorAlert = true
+                spinnerVisible = 0.0
                 return
             }
             
             guard let imageData = data else {
                 self.errorAlertMessage = "Failed to retrieve image data"
                 self.showErrorAlert = true
+                spinnerVisible = 0.0
                 return
             }
             let metadata = StorageMetadata()
@@ -334,6 +340,7 @@ struct ContentView: View {
                 if let error = error {
                     self.errorAlertMessage = error.localizedDescription
                     self.showErrorAlert = true
+                    spinnerVisible = 0.0
                     return
                 }
                 
@@ -342,6 +349,7 @@ struct ContentView: View {
                     if let error = error {
                         self.errorAlertMessage = error.localizedDescription
                         self.showErrorAlert = true
+                        spinnerVisible = 0.0
                         return
                     }
                     
@@ -359,7 +367,7 @@ struct ContentView: View {
                                 self.showErrorAlert = true
                                 return
                             }
-                            
+                            spinnerVisible = 0.0
                             self.isNavigationActive = true
                         }
                     }
