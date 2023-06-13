@@ -35,6 +35,7 @@
 		46437A472A29BF280009C0D7 /* FirebaseInAppMessagingSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A462A29BF280009C0D7 /* FirebaseInAppMessagingSwift-Beta */; };
 		46437A492A29BF280009C0D7 /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A482A29BF280009C0D7 /* FirebaseInstallations */; };
 		46437A4B2A29BF280009C0D7 /* FirebaseMLModelDownloader in Frameworks */ = {isa = PBXBuildFile; productRef = 46437A4A2A29BF280009C0D7 /* FirebaseMLModelDownloader */; };
+		4652A71F2A3846230045F032 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4652A71E2A3846230045F032 /* Assets.xcassets */; };
 		466D0B8B2A2EC69A00BB260A /* GPTGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466D0B8A2A2EC69A00BB260A /* GPTGenerate.swift */; };
 		466EF1582A342FBA00B2E5A0 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF14F2A342FB900B2E5A0 /* Navigation.swift */; };
 		466EF1592A342FBA00B2E5A0 /* SettingsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF1502A342FBA00B2E5A0 /* SettingsTab.swift */; };
@@ -45,7 +46,6 @@
 		466EF16A2A34952700B2E5A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF1692A34952600B2E5A0 /* ContentView.swift */; };
 		466EF16D2A3497B900B2E5A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 466EF16C2A3497B900B2E5A0 /* FirebaseStorage */; };
 		466EF16F2A3497B900B2E5A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 466EF16E2A3497B900B2E5A0 /* FirebaseStorageCombine-Community */; };
-		E8CE67342A37E62800AFF1A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8CE67332A37E62800AFF1A7 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +59,7 @@
 		46437A042A29B6D20009C0D7 /* MUSAICTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICTests.swift; sourceTree = "<group>"; };
 		46437A0E2A29B6D20009C0D7 /* MUSAICUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICUITests.swift; sourceTree = "<group>"; };
 		46437A102A29B6D20009C0D7 /* MUSAICUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUSAICUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4652A71E2A3846230045F032 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
 		466D0B8A2A2EC69A00BB260A /* GPTGenerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTGenerate.swift; sourceTree = "<group>"; };
 		466EF14F2A342FB900B2E5A0 /* Navigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		466EF1502A342FBA00B2E5A0 /* SettingsTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTab.swift; sourceTree = "<group>"; };
@@ -67,7 +68,6 @@
 		466EF1552A342FBA00B2E5A0 /* SpotifySimilar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifySimilar.swift; sourceTree = "<group>"; };
 		466EF1672A344C0D00B2E5A0 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		466EF1692A34952600B2E5A0 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		E8CE67332A37E62800AFF1A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Desktop/Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +127,7 @@
 		464379F22A29B6D10009C0D7 /* MUSAIC */ = {
 			isa = PBXGroup;
 			children = (
-				E8CE67332A37E62800AFF1A7 /* Assets.xcassets */,
+				4652A71E2A3846230045F032 /* Assets.xcassets */,
 				466EF1692A34952600B2E5A0 /* ContentView.swift */,
 				466EF1672A344C0D00B2E5A0 /* SignInView.swift */,
 				466EF1542A342FBA00B2E5A0 /* AlbumTab.swift */,
@@ -259,7 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				463F5F722A315C0200B77900 /* GoogleService-Info.plist in Resources */,
-				E8CE67342A37E62800AFF1A7 /* Assets.xcassets in Resources */,
+				4652A71F2A3846230045F032 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +413,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MUSAIC/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save images to your photo library for offline access.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -441,6 +442,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MUSAIC/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save images to your photo library for offline access.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -497,14 +499,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 10.0.0;
-			};
-		};
-		E1C8D91B2A301CE300EA7A84 /* XCRemoteSwiftPackageReference "SpotifyAPI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Peter-Schorn/SpotifyAPI.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

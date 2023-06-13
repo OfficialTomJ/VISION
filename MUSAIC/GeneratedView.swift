@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import UIKit
 
 struct GeneratedView: View {
     
@@ -35,6 +36,8 @@ struct GeneratedView: View {
         ))
     }
     
+    @State private var isImageSaved = false
+    
     var body: some View {
         ZStack(alignment: .center) {
             Image("Blur")
@@ -44,9 +47,6 @@ struct GeneratedView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     VStack(alignment: .center) {
-                        Text("24 May 2023")
-                            .font(.title3)
-                            .foregroundColor(Color.white)
                         AsyncImage(url: URL(string: album.URL)) { phase in
                             switch phase {
                             case .empty:
@@ -77,20 +77,23 @@ struct GeneratedView: View {
                                 .italic()
                                 .padding(.bottom, 10.0)
                             HStack(spacing: 30) {
-                                Button(action: {}) {
+                                Button(action: {
+                                    saveImageToGallery()
+                                }) {
                                     Image("Upload")
                                         .resizable()
-                                    .frame(width: 25, height: 35)}
-                                Text("Save to gallery")
-                                    .font(.headline)
-                                    .foregroundColor(Color.white)
+                                        .frame(width: 25, height: 35)
+                                }
+                                Button(action: {
+                                        saveImageToGallery()
+                                    }) {
+                                        Text(isImageSaved ? "Image Saved" : "Save to gallery")
+                                            .font(.headline)
+                                            .foregroundColor(Color.white)
+                                    }
                             }
-                           
                         }.padding(.leading, 20)
                     }
-                    
-                    
-                    
                 }.padding(20.0)
                 ZStack (alignment: .center){
                     RoundedRectangle(cornerRadius: 10)
@@ -106,9 +109,7 @@ struct GeneratedView: View {
             }.padding(.vertical, 100)
         }.onAppear {
             loadAlbumData()
-            
         }
-        
     }
     
     private func loadAlbumData() {
@@ -122,7 +123,7 @@ struct GeneratedView: View {
             }
         }
     }
-
+    
     func generateViewWithCustomAlbum(jsonString: String, albumArtworkURL: String) -> Album {
         var album = Album(
             URL: "",
@@ -133,7 +134,6 @@ struct GeneratedView: View {
             mindDescRecom: "",
             goals: [""]
         )
-
         
         if let jsonData = jsonString.data(using: .utf8) {
             do {
@@ -165,11 +165,26 @@ struct GeneratedView: View {
         return album
     }
     
-    struct GeneratedView_Previews: PreviewProvider {
-        static var previews: some View {
-            let databaseRef = Database.database().reference()
-            return GeneratedView(databaseRef: databaseRef)
+    private func saveImageToGallery() {
+        guard let url = URL(string: album.URL) else {
+            return
+        }
+        
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url),
+               let image = UIImage(data: data) {
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                DispatchQueue.main.async {
+                    isImageSaved = true
+                }
+            }
         }
     }
-    
+}
+
+struct GeneratedView_Previews: PreviewProvider {
+    static var previews: some View {
+        let databaseRef = Database.database().reference()
+        return GeneratedView(databaseRef: databaseRef)
+    }
 }
