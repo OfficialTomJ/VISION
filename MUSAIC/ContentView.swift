@@ -56,19 +56,7 @@ struct ContentView: View {
                 VStack (alignment: .center)
                 {
                     
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color(red: 0.1, green: 0.5, blue: 0.7))
-                        .frame(width: 300, height: 15)
-                        .opacity(0.5)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color(red: 0.2, green: 0.5, blue: 0.7))
-                                .frame(width: 50, height: 15)
-                                .opacity(0.9)
-                                .overlay(Text("\(progressCounter)")
-                                    .font(.caption)
-                                    .foregroundColor(Color.white)
-                                    .multilineTextAlignment(.leading)))
+                    
                     
                     HStack(){
                         Text(prompt)
@@ -100,28 +88,48 @@ struct ContentView: View {
                         }
                     }
                     
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white)
-                            .frame(width: 150, height: 20)
-                            .opacity(0.6)
+                    HStack {
                         
-                        Slider(
-                            value: $speed,
-                            in: 0...100,
-                            onEditingChanged: { editingChanged in
-                                if speed == 100 && !editingChanged {
-                                    generateSummaryAndImage()
-                                }}
-                        )
-                        .disabled(thoughtsArray.count <= 4)
-                        .accentColor(Color(hue: 1.0, saturation: 1.0, brightness: 1.0, opacity: 0))
-                        .frame(width: 150)
-                        Text("   Slide to generate")
-                            .font(.caption2)
-                            .foregroundColor(Color.white)
-                            .multilineTextAlignment(.center)
-                            .opacity(0.9)
+                        RoundedRectangle(cornerRadius: 5)
+                            .fill(Color(red: 0.1, green: 0.5, blue: 0.7))
+                            .frame(width: 20, height: 15)
+                            .opacity(0.75)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color(red: 0.2, green: 0.5, blue: 0.7))
+                                    .frame(width: 35, height: 18)
+                                    .opacity(0.9)
+                                    .overlay(Text("\(progressCounter)")
+                                        .font(.caption)
+                                        .foregroundColor(Color.white)
+                                        .multilineTextAlignment(.leading)))
+                            .padding(.horizontal, 8)
+                        
+                        ZStack {
+                            
+                            
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.white)
+                                .frame(width: 150, height: 20)
+                                .opacity(0.6)
+                            
+                            Slider(
+                                value: $speed,
+                                in: 0...100,
+                                onEditingChanged: { editingChanged in
+                                    if speed == 100 && !editingChanged {
+                                        generateSummaryAndImage()
+                                    }}
+                            )
+                            .disabled(thoughtsArray.count <= 4)
+                            .accentColor(Color(hue: 1.0, saturation: 1.0, brightness: 1.0, opacity: 0))
+                            .frame(width: 150)
+                            Text("   Slide to generate")
+                                .font(.caption2)
+                                .foregroundColor(Color.white)
+                                .multilineTextAlignment(.center)
+                                .opacity(0.9)
+                        }
                     }
                     .padding(0.0)
                     Text("...Or keep going")
