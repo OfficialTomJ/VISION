@@ -106,18 +106,18 @@ struct AlbumTab: View {
                         KFImage(URL(string: imageURL))
                             .resizable()
                             .frame(width: 200, height: 200)
-                            .padding(.top, 40.0)
+                            .padding(.top, 30.0)
                         
                         Text(title)
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
-                            .padding(20)
+                            .padding(10)
                     } else {
                         Image("")
                             .resizable()
                             .frame(width: 200, height: 200)
-                            .padding(.top, 40.0)
+                            .padding(.top, 30.0)
                         
                         Text("No albums available")
                             .font(.title)
@@ -131,50 +131,52 @@ struct AlbumTab: View {
                             print("Database Ref")
                             print(databaseRef)
                         }) {
-                            HStack(alignment: .bottom, spacing: 20) {
+                            HStack(alignment: .center, spacing: 20) {
                                 Text("View")
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundColor(.white)
-                                    .padding(.bottom, 10.0)
                                 Image("Play")
                                     .resizable()
                                 .frame(width: 50, height: 50)
-                            }.padding(10)
+                            }.padding(.vertical, 10)
+                                .padding(.horizontal,12)
                             .background(Color.white.opacity(0.2))
                             .cornerRadius(60)
-                        }
-                    
-                    
-                    Image("Bigger line") // Replace "Line" with the name of your line image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 2)
-                        .padding(.vertical, 30)
-                    
-                    ScrollView(.vertical, showsIndicators: true) {
-                        LazyVGrid(columns: gridItems(), spacing: 20) {
-                            ForEach(albumItems) { albumItem in
-                                let albumID = albumItem.id
-                                let imageURL = albumItem.imageURL
-                                let albumData = albumItem.data
-                                
-                                if let url = URL(string: imageURL) {
-                                    Button(action: {
-                                        selectedAlbumID = albumID
-                                    }) {
-                                        KFImage(url)
+                        }.padding(.bottom, 30)
+                    VStack(spacing: 0){
+                        Rectangle().fill(Color.white.opacity(0.5)).frame(height: 20)
+                            .overlay(){
+                                Rectangle().fill(Color.white.opacity(0.8))
+                                    .frame(width: 360, height: 5)
+                                    .cornerRadius(5)
+                            }
+                        ScrollView(.vertical, showsIndicators: true) {
+                            LazyVGrid(columns: gridItems(), spacing: 20) {
+                                ForEach(albumItems) { albumItem in
+                                    let albumID = albumItem.id
+                                    let imageURL = albumItem.imageURL
+                                    let albumData = albumItem.data
+                                    
+                                    if let url = URL(string: imageURL) {
+                                        Button(action: {
+                                            selectedAlbumID = albumID
+                                        }) {
+                                            KFImage(url)
+                                                .resizable()
+                                                .frame(width: 100, height: 100)
+                                        }
+                                    } else {
+                                        Image("sample")
                                             .resizable()
                                             .frame(width: 100, height: 100)
                                     }
-                                } else {
-                                    Image("sample")
-                                        .resizable()
-                                        .frame(width: 100, height: 100)
                                 }
                             }
-                        }
+                        }.padding()
+                            .background(Color.white.opacity(0.3))
                     }
+                    
                 }
                 .onAppear {
                     fetchAlbums()
