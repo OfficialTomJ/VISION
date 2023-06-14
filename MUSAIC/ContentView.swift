@@ -40,6 +40,7 @@ struct ContentView: View {
     @State private var showErrorAlert: Bool = false
     @StateObject private var thoughtsArrayObserver = ThoughtsArrayObserver()
     @Binding var databaseRef: DatabaseReference
+    @State private var gradientColors: [Color] = []
     
     var progressCounter: Int {
         thoughtsArray.count
@@ -156,7 +157,7 @@ struct ContentView: View {
             }
             .navigationBarHidden(true)
             .background(
-                NavigationLink(destination: GeneratedView(databaseRef: databaseRef, selectedTab: Binding.constant(1)), isActive: $isNavigationActive) {
+                NavigationLink(destination: GeneratedView(databaseRef: databaseRef, selectedTab: Binding.constant(1), gradientColors: gradientColors), isActive: $isNavigationActive) {
                     EmptyView()
                 }
                     .hidden()

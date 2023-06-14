@@ -22,12 +22,15 @@ struct GeneratedView: View {
     
     @Binding var selectedTab: Int
     
-    init(databaseRef: DatabaseReference, selectedTab: Binding<Int>) {
+    @State private var gradientColors: [Color] = []
+    
+    init(databaseRef: DatabaseReference, selectedTab: Binding<Int>, gradientColors: [Color]) {
         self.databaseRef = databaseRef
         self.jsonString = ""
         self.albumArtworkURL = ""
         
         _selectedTab = selectedTab
+        self.gradientColors = gradientColors
         
         _album = State(initialValue: Album(
             URL: "",
@@ -41,8 +44,6 @@ struct GeneratedView: View {
     }
     
     @State private var isImageSaved = false
-    
-    @State private var gradientColors: [Color] = []
     
     var body: some View {
         ZStack(alignment: .center) {
@@ -228,6 +229,7 @@ struct GeneratedView: View {
 struct GeneratedView_Previews: PreviewProvider {
     static var previews: some View {
         let databaseRef = Database.database().reference()
-        return GeneratedView(databaseRef: databaseRef, selectedTab: Binding.constant(0))
+        let gradientColors: [Color] = []
+        return GeneratedView(databaseRef: databaseRef, selectedTab: Binding.constant(0), gradientColors: gradientColors)
     }
 }
