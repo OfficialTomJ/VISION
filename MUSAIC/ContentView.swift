@@ -48,9 +48,18 @@ struct ContentView: View {
     }
     
     init(databaseRef: Binding<DatabaseReference>) {
-        let databaseRefGen = Binding.constant(Database.database().reference().child("albums").child(Auth.auth().currentUser!.uid ).childByAutoId())
+        if let currentUser = Auth.auth().currentUser {
+            let databaseRefGen = Binding.constant(Database.database().reference().child("albums").child(currentUser.uid).childByAutoId())
             self._databaseRef = databaseRefGen
+        } else {
+            // Handle the case where the user is not authenticated
+            // You can either provide a default value for databaseRef or handle the error in some other way
+            // For example, you can display an error message to the user or redirect them to the sign-in screen
+            // Here, we'll set a default value for databaseRef
+            self._databaseRef = Binding.constant(Database.database().reference().child("albums").child("default").childByAutoId())
         }
+    }
+
     
     var body: some View {
         NavigationView {

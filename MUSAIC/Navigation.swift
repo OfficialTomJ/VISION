@@ -38,7 +38,8 @@ struct Navigation: View {
         .accentColor(.black) // Set the color of the selected tab
         .onAppear(perform: checkFirebaseUser)
         .sheet(isPresented: $showModal) {
-            SignInView()
+            SignInView(email: .constant(""), password: .constant(""), isSignUp: .constant(false), signInAction: {})
+
         }
     }
     
