@@ -81,7 +81,7 @@ struct ContentView: View {
                         }) {
                             Image("Reload").resizable()
                                 .foregroundColor(Color.white)
-                                .frame(width: 20,height: 20)
+                                .frame(width: 24,height: 20)
                         }
                     }.padding(.top, 100.0)
                     HStack {

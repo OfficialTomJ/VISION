@@ -23,7 +23,6 @@ struct Navigation: View {
                         .accentColor(.black)
                 }
                 .tag(0)
-            
             ContentView(databaseRef: $databaseRef)
                 .tabItem {
                     Label ("Thoughts", systemImage: "plus.bubble.fill")

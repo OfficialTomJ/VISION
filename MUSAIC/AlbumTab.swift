@@ -109,9 +109,10 @@ struct AlbumTab: View {
                             .padding(.top, 40.0)
                         
                         Text(title)
-                            .font(.title)
+                            .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
+                            .padding(20)
                     } else {
                         Image("")
                             .resizable()
@@ -124,28 +125,26 @@ struct AlbumTab: View {
                             .foregroundColor(.white)
                     }
                     
-                    HStack {
-                        Button(action: {
-                            isNavigationActive = true
-                        }) {
-                            Text("View")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .padding(.bottom, 10.0)
-                        }
-                        
+                    
                         Button(action: {
                             isNavigationActive = true
                             print("Database Ref")
                             print(databaseRef)
                         }) {
-                            Image("Play")
-                                .resizable()
+                            HStack(alignment: .bottom, spacing: 20) {
+                                Text("View")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                    .padding(.bottom, 10.0)
+                                Image("Play")
+                                    .resizable()
                                 .frame(width: 50, height: 50)
+                            }.padding(10)
+                            .background(Color.white.opacity(0.2))
+                            .cornerRadius(60)
                         }
-                    }
-                    .padding(.bottom, 0.0)
+                    
                     
                     Image("Bigger line") // Replace "Line" with the name of your line image
                         .resizable()
