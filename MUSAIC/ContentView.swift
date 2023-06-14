@@ -4,6 +4,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseCore
 import FirebaseStorage
+import ColorThiefSwift
 
 var prompts: [String] = [
     "What inspired you today?",
@@ -40,6 +41,7 @@ struct ContentView: View {
     @State private var showErrorAlert: Bool = false
     @StateObject private var thoughtsArrayObserver = ThoughtsArrayObserver()
     @Binding var databaseRef: DatabaseReference
+    @State private var gradientColors: [Color] = []
     
     var progressCounter: Int {
         thoughtsArray.count
@@ -156,7 +158,7 @@ struct ContentView: View {
             }
             .navigationBarHidden(true)
             .background(
-                NavigationLink(destination: GeneratedView(databaseRef: databaseRef, selectedTab: Binding.constant(1)), isActive: $isNavigationActive) {
+                NavigationLink(destination: GeneratedView(databaseRef: databaseRef, selectedTab: Binding.constant(1), gradientColors: gradientColors), isActive: $isNavigationActive) {
                     EmptyView()
                 }
                     .hidden()
@@ -181,6 +183,42 @@ struct ContentView: View {
             return ""
         }
     }
+    
+    private func generateGradientColors() {
+        guard let imageURL = URL(string: albumArtworkURL),
+              let imageData = try? Data(contentsOf: imageURL),
+              let uiImage = UIImage(data: imageData) else {
+            return
+        }
+        
+        DispatchQueue.global().async {
+            if let palette = ColorThief.getPalette(from: uiImage, colorCount: 2) {
+                guard palette.count >= 2 else {
+                    return
+                }
+                
+                let dominantColor1 = palette[0]
+                let dominantColor2 = palette[1]
+                
+                let red1 = Double(dominantColor1.r) / 255.0
+                let green1 = Double(dominantColor1.g) / 255.0
+                let blue1 = Double(dominantColor1.b) / 255.0
+                let uiColor1 = UIColor(red: CGFloat(red1), green: CGFloat(green1), blue: CGFloat(blue1), alpha: 1.0)
+                let gradientColor1 = Color(uiColor1)
+                
+                let red2 = Double(dominantColor2.r) / 255.0
+                let green2 = Double(dominantColor2.g) / 255.0
+                let blue2 = Double(dominantColor2.b) / 255.0
+                let uiColor2 = UIColor(red: CGFloat(red2), green: CGFloat(green2), blue: CGFloat(blue2), alpha: 1.0)
+                let gradientColor2 = Color(uiColor2)
+                
+                DispatchQueue.main.async {
+                    self.gradientColors = [gradientColor1, gradientColor2]
+                }
+            }
+        }
+    }
+
 
     func generateSummaryAndImage() {
         load = "The best things in life take time to load"
@@ -257,6 +295,7 @@ struct ContentView: View {
                             // Handle the generated image URL
                             DispatchQueue.main.async {
                                 self.albumArtworkURL = url.absoluteString // Update the albumArtworkURL
+                                generateGradientColors()
                                 self.isImageReady = true
                                 self.checkNavigation()
                             }

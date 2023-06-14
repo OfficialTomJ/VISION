@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 import FirebaseDatabase
 import Kingfisher
+import ColorThiefSwift
 
 struct AlbumItem: Identifiable {
     let id: String
@@ -25,6 +26,8 @@ struct AlbumTab: View {
     
     @State private var databaseRef: DatabaseReference
     
+    @State private var gradientColors: [Color] = []
+    
     @Binding var selectedTab: Int
     
     init(databaseRef: DatabaseReference, selectedTab: Binding<Int>) {
@@ -36,7 +39,6 @@ struct AlbumTab: View {
         didSet {
             if let albumID = selectedAlbumID {
                 databaseRef = Database.database().reference().child("albums").child(Auth.auth().currentUser!.uid).child(albumID)
-                print(databaseRef)
             }
         }
     }
@@ -74,8 +76,7 @@ struct AlbumTab: View {
                         selectedAlbumID = albumItems.first?.id
                     }
                     
-                    print("First album item:")
-                    print(albumItems)
+                    generateGradientColors()
                     
                     if let urlString = albumItems.first?.imageURL {
                         // ... existing code ...
@@ -89,6 +90,43 @@ struct AlbumTab: View {
                 print("Snapshot does not exist")
             }
         }
+    }
+    
+    private func generateGradientColors() {
+        guard let selectedAlbum = albumItems.first(where: { $0.id == selectedAlbumID }),
+                  let imageURL = URL(string: selectedAlbum.imageURL),
+                  let imageData = try? Data(contentsOf: imageURL),
+                  let uiImage = UIImage(data: imageData) else {
+                return
+            }
+        
+        DispatchQueue.global().async {
+            if let palette = ColorThief.getPalette(from: uiImage, colorCount: 2) {
+                guard palette.count >= 2 else {
+                    return
+                }
+                
+                let dominantColor1 = palette[0]
+                let dominantColor2 = palette[1]
+                
+                let red1 = Double(dominantColor1.r) / 255.0
+                let green1 = Double(dominantColor1.g) / 255.0
+                let blue1 = Double(dominantColor1.b) / 255.0
+                let uiColor1 = UIColor(red: CGFloat(red1), green: CGFloat(green1), blue: CGFloat(blue1), alpha: 1.0)
+                let gradientColor1 = Color(uiColor1)
+                
+                let red2 = Double(dominantColor2.r) / 255.0
+                let green2 = Double(dominantColor2.g) / 255.0
+                let blue2 = Double(dominantColor2.b) / 255.0
+                let uiColor2 = UIColor(red: CGFloat(red2), green: CGFloat(green2), blue: CGFloat(blue2), alpha: 1.0)
+                let gradientColor2 = Color(uiColor2)
+                
+                DispatchQueue.main.async {
+                    self.gradientColors = [gradientColor1, gradientColor2]
+                }
+            }
+        }
+
     }
     
     var body: some View {
@@ -129,8 +167,6 @@ struct AlbumTab: View {
                     
                         Button(action: {
                             isNavigationActive = true
-                            print("Database Ref")
-                            print(databaseRef)
                         }) {
                             HStack(alignment: .center, spacing: 20) {
                                 Text("View")
@@ -159,6 +195,7 @@ struct AlbumTab: View {
                                     if let url = URL(string: imageURL) {
                                         Button(action: {
                                             selectedAlbumID = albumID
+                                            generateGradientColors()
                                         }) {
                                             KFImage(url)
                                                 .resizable()
@@ -181,7 +218,7 @@ struct AlbumTab: View {
                 }
             }
             .background(
-                NavigationLink(destination: GeneratedView(databaseRef: databaseRef, selectedTab: $selectedTab), isActive: $isNavigationActive) {
+                NavigationLink(destination: GeneratedView(databaseRef: databaseRef, selectedTab: $selectedTab, gradientColors: gradientColors), isActive: $isNavigationActive) {
                     EmptyView()
                 }
                 .hidden()
