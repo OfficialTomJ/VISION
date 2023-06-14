@@ -107,6 +107,7 @@ struct AlbumTab: View {
                             .resizable()
                             .frame(width: 200, height: 200)
                             .padding(.top, 30.0)
+                            .shadow(color: .white.opacity(0.4), radius: 10)
                         
                         Text(title)
                             .font(.title2)
@@ -145,12 +146,9 @@ struct AlbumTab: View {
                             .cornerRadius(60)
                         }.padding(.bottom, 30)
                     VStack(spacing: 0){
-                        Rectangle().fill(Color.white.opacity(0.5)).frame(height: 20)
-                            .overlay(){
-                                Rectangle().fill(Color.white.opacity(0.8))
-                                    .frame(width: 360, height: 5)
-                                    .cornerRadius(5)
-                            }
+                        Rectangle().fill(Color.white.opacity(0.0)).frame(height: 20)
+                            
+                            
                         ScrollView(.vertical, showsIndicators: true) {
                             LazyVGrid(columns: gridItems(), spacing: 20) {
                                 ForEach(albumItems) { albumItem in
@@ -173,7 +171,7 @@ struct AlbumTab: View {
                                     }
                                 }
                             }
-                        }.padding()
+                        }.padding(24)
                             .background(Color.white.opacity(0.3))
                     }
                     
