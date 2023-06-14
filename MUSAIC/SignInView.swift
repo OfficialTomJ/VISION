@@ -9,30 +9,32 @@ import SwiftUI
 import FirebaseAuth
 
 struct SignInView: View {
-    @State private var text: String = ""
-    @State private var password: String = ""
-    @State private var isSignUp: Bool = false
+    @Binding var email: String
+    @Binding var password: String
+    @Binding var isSignUp: Bool
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
-    
+
+    var signInAction: () -> Void
+
     var body: some View {
         ZStack(alignment: .top) {
             Image("Background")
                 .resizable()
-                .frame(width: 450,height: 1000)
+                .frame(width: 450, height: 1000)
                 .ignoresSafeArea(.all)
             VStack {
-                Text("Welcome to MUSAIC")
+                Text("Welcome to VISION")
                     .font(.largeTitle)
                     .fontWeight(.heavy)
                     .foregroundColor(Color.white)
                     .padding(.bottom, 1.0)
-                Text("Where all things inspired")
+                Text("Generate Inspiration")
                     .foregroundColor(Color.white)
                     .opacity(0.6)
                     .italic()
-                TextField("Email", text: $text)
+                TextField("Email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .disableAutocorrection(true)
                     .textInputAutocapitalization(.never)
@@ -47,8 +49,8 @@ struct SignInView: View {
                     .padding(.top, 5.0)
                     .frame(width: 300)
                     .opacity(0.6)
-                ZStack (alignment: .center) {
-                    Button(action: { signBtn(isSignUp: isSignUp) }) {
+                ZStack(alignment: .center) {
+                    Button(action: { signInAction() }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color(red: 1, green: 1, blue: 1))
@@ -66,42 +68,12 @@ struct SignInView: View {
             }.padding(.top, 250)
         }
         .alert(isPresented: $showAlert) {
-                    Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .cancel())
-                }
-    }
-    
-    func signBtn(isSignUp: Bool) {
-        if isSignUp {
-            // Sign up a new user
-            Auth.auth().createUser(withEmail: text, password: password) { authResult, error in
-                if let error = error {
-                    showAlert = true
-                    alertTitle = "Sign Up Error"
-                    alertMessage = "\(error.localizedDescription)"
-                    return
-                }
-                // User sign up successful
-                print("Sign Up Successful")
-            }
-        } else {
-            // Sign in an existing user
-            Auth.auth().signIn(withEmail: text, password: password) { authResult, error in
-                if let error = error {
-                    showAlert = true
-                    alertTitle = "Sign In Error"
-                    alertMessage = "\(error.localizedDescription)"
-                    return
-                }
-                // User sign in successful
-                print("Sign In Successful")
-            }
+            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .cancel())
         }
     }
 }
-
-
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView()
+        SignInView(email: .constant(""), password: .constant(""), isSignUp: .constant(false), signInAction: {})
     }
 }
