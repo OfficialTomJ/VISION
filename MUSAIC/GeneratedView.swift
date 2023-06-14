@@ -12,7 +12,6 @@ import Kingfisher
 struct GeneratedView: View {
     
     let databaseRef: DatabaseReference
-    
     let jsonString: String
     let albumArtworkURL: String
     
@@ -49,7 +48,7 @@ struct GeneratedView: View {
                 .frame(width: 450, height: 1000)
                 .ignoresSafeArea(.all)
             ScrollView {
-                VStack(alignment: .leading) {
+                VStack(alignment: .center) {
                     VStack(alignment: .center) {
                         if let url = URL(string: album.URL) {
                             KFImage(url)
@@ -59,21 +58,22 @@ struct GeneratedView: View {
                         } else {
                             Text("Invalid image URL")
                         }
-                    }.padding(.top, 50)
+                    }.padding(.top, 60)
                     
-                    HStack {
+                    ZStack {
+                        
                         VStack(alignment: .leading) {
                             Text(album.title)
-                                .font(.title)
+                                .font(.title3)
                                 .foregroundColor(.white)
                                 .padding(.bottom, 2.0)
                             Text(album.caption)
-                                .font(.title2)
+                                .font(.headline)
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.leading)
                                 .italic()
                                 .padding(.bottom, 10.0)
-                            HStack(spacing: 30) {
+                            HStack(spacing: 20) {
                                 Button(action: {
                                     saveImageToGallery()
                                 }) {
@@ -89,7 +89,10 @@ struct GeneratedView: View {
                                         .foregroundColor(.white)
                                 }
                             }
-                        }.padding(.leading, 20)
+                        }.padding(25)
+                            .background(Color.white.opacity(0.2))
+                            .cornerRadius(10)
+                            .frame(width: 360)
                     }
                 }.padding(20.0)
                 ZStack (alignment: .center){
@@ -105,7 +108,7 @@ struct GeneratedView: View {
                             .foregroundColor(.white)
                     }
                 }.padding(.bottom, 100)
-            }.padding(.vertical, 100)
+            }.padding(.vertical, 90)
         }.onAppear {
             loadAlbumData()
             
