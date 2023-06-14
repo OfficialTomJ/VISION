@@ -46,6 +46,8 @@ struct GeneratedView: View {
     
     var body: some View {
         ZStack(alignment: .center) {
+            LinearGradient(gradient: Gradient(colors: gradientColors), startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea(.all)
             ScrollView {
                 VStack(alignment: .center) {
                     VStack(alignment: .center) {
@@ -53,11 +55,12 @@ struct GeneratedView: View {
                             KFImage(url)
                                 .resizable()
                                 .padding(.bottom)
-                                .frame(width: 360, height: 360)
+                                .frame(width: 340, height: 340)
+                                .shadow(color: .white.opacity(0.4), radius: 5)
                         } else {
                             Text("Invalid image URL")
                         }
-                    }.padding(.top, 50)
+                    }.padding(.top, 20)
                     
                     ZStack {
                         
@@ -88,12 +91,12 @@ struct GeneratedView: View {
                                         .foregroundColor(.white)
                                 }
                             }
-                        }.padding(25)
+                        }.padding(20)
                             .background(Color.white.opacity(0.2))
                             .cornerRadius(10)
                             .frame(width: 360)
                     }
-                }.padding(20.0)
+                }.padding(0)
                 ZStack (alignment: .center){
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color(red: 1, green: 1, blue: 1))
@@ -107,8 +110,10 @@ struct GeneratedView: View {
                             .foregroundColor(.white)
                     }
                 }.padding(.bottom, 100)
-            }.padding(.vertical, 90)
-                .background(LinearGradient(gradient: Gradient(colors: gradientColors), startPoint: .top, endPoint: .bottom))
+                    .padding(.top,20)
+            }.ignoresSafeArea(.all)
+                .padding(.vertical,10)
+                
 
         }.onAppear {
             loadAlbumData()
