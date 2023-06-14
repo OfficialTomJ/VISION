@@ -236,7 +236,7 @@ struct ContentView: View {
         for thought in thoughtsArray {
             summaryPrompt += "`\(thought)`, "
         }
-        summaryPrompt += "generate a summary in the theme of a music album with a title, caption, short personal reflection, 1 recommendation to do with mindfulness, and 2 goals for the week in this exact JSON format { \"title\": \"\", \"caption\": \"\", \"short-reflection\": \"\", \"recommendation\": { \"mindfulness\": \"\", \"short-description\": \"\" }, \"goals\": [ \"\", \"\" ] }"
+        summaryPrompt += "generate an inspiring summary at a higher temperature in the theme of a music album with a catchy title, caption, short personal reflection, 1 recommendation to do with mindfulness, and 2 goals for the week in this exact JSON format { \"title\": \"\", \"caption\": \"\", \"short-reflection\": \"\", \"recommendation\": { \"mindfulness\": \"\", \"short-description\": \"\" }, \"goals\": [ \"\", \"\" ] }"
 
         generateGPT(prompt: summaryPrompt) { result in
             switch result {
