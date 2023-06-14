@@ -35,8 +35,7 @@ struct Navigation: View {
                 .tag(2)
         }
         .onAppear() {UITabBar.appearance().backgroundColor = .lightText}
-        .accentColor(.blue) // Set the color of the selected tab
-        .background(Color.black) // Set the background color of the TabView
+        .accentColor(.black) // Set the color of the selected tab
         .onAppear(perform: checkFirebaseUser)
         .sheet(isPresented: $showModal) {
             SignInView()

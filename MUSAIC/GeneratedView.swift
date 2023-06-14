@@ -58,7 +58,7 @@ struct GeneratedView: View {
                         } else {
                             Text("Invalid image URL")
                         }
-                    }.padding(.top, 50)
+                    }.padding(.top, 60)
                     
                     ZStack {
                         
