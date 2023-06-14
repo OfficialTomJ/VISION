@@ -47,7 +47,7 @@
 		466EF16A2A34952700B2E5A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF1692A34952600B2E5A0 /* ContentView.swift */; };
 		466EF16D2A3497B900B2E5A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 466EF16C2A3497B900B2E5A0 /* FirebaseStorage */; };
 		466EF16F2A3497B900B2E5A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 466EF16E2A3497B900B2E5A0 /* FirebaseStorageCombine-Community */; };
-		E8CE67342A37E62800AFF1A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8CE67332A37E62800AFF1A7 /* Assets.xcassets */; };
+		46D9830F2A394F350041A31B /* ColorThiefSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 46D9830E2A394F350041A31B /* ColorThiefSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,7 +70,6 @@
 		466EF1552A342FBA00B2E5A0 /* SpotifySimilar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifySimilar.swift; sourceTree = "<group>"; };
 		466EF1672A344C0D00B2E5A0 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		466EF1692A34952600B2E5A0 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		E8CE67332A37E62800AFF1A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Desktop/Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +84,7 @@
 				46437A232A29BF280009C0D7 /* FirebaseAnalytics in Frameworks */,
 				46437A252A29BF280009C0D7 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				46437A4B2A29BF280009C0D7 /* FirebaseMLModelDownloader in Frameworks */,
+				46D9830F2A394F350041A31B /* ColorThiefSwift in Frameworks */,
 				46437A3F2A29BF280009C0D7 /* FirebaseFirestoreSwift in Frameworks */,
 				46437A2B2A29BF280009C0D7 /* FirebaseAppCheck in Frameworks */,
 				4652A7222A3859440045F032 /* Kingfisher in Frameworks */,
@@ -216,6 +216,7 @@
 				466EF16C2A3497B900B2E5A0 /* FirebaseStorage */,
 				466EF16E2A3497B900B2E5A0 /* FirebaseStorageCombine-Community */,
 				4652A7212A3859440045F032 /* Kingfisher */,
+				46D9830E2A394F350041A31B /* ColorThiefSwift */,
 			);
 			productName = MUSAIC;
 			productReference = 464379F02A29B6D10009C0D7 /* MUSAIC.app */;
@@ -249,6 +250,7 @@
 				46437A212A29BF280009C0D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				463F5F732A315C3600B77900 /* XCRemoteSwiftPackageReference "SpotifyAPI" */,
 				4652A7202A3859440045F032 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				46D9830D2A394F350041A31B /* XCRemoteSwiftPackageReference "ColorThiefSwift" */,
 			);
 			productRefGroup = 464379F12A29B6D10009C0D7 /* Products */;
 			projectDirPath = "";
@@ -515,6 +517,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		46D9830D2A394F350041A31B /* XCRemoteSwiftPackageReference "ColorThiefSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yamoridon/ColorThiefSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -642,6 +652,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 46437A212A29BF280009C0D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		46D9830E2A394F350041A31B /* ColorThiefSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46D9830D2A394F350041A31B /* XCRemoteSwiftPackageReference "ColorThiefSwift" */;
+			productName = ColorThiefSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
