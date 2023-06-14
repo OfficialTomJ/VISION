@@ -75,16 +75,19 @@ struct ContentView: View {
                         Text(prompt)
                             .font(.title2)
                             .foregroundColor(Color.white)
-                            .multilineTextAlignment(.center)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
                         Button(action: {
                             shuffleThought(prompt: $prompt)
                         }) {
-                            Image("Reload").resizable()
-                                .foregroundColor(Color.white)
-                                .frame(width: 24,height: 20)
+                            Image(systemName: "arrow.triangle.2.circlepath").resizable()
+                                .foregroundColor(Color.white.opacity(0.8))
+                                .frame(width: 30,height: 24)
                         }
                     }.padding(.top, 100.0)
-                    HStack {
+                        .padding(.trailing, 18)
+                        .padding(.leading, 40)
+                    HStack(spacing: 0) {
                         TextField("Enter thoughts", text: $text)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
@@ -93,28 +96,29 @@ struct ContentView: View {
                         Button(action: {
                             addThought()
                         }) {
-                            Image("Send").resizable()
-                                .foregroundColor(Color.white)
+                            Image(systemName: "paperplane.fill").resizable()
+                                .foregroundColor(Color.white.opacity(0.8))
                                 .frame(width: 25,height: 25)
                         }
                     }
                     
                     HStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(red: 0.2, green: 0.5, blue: 0.7))
-                            .frame(width: 120, height: 25)
-                            .opacity(0.95)
-                            .overlay(Text("Thoughts: \(progressCounter) ")
-                                .font(.headline)
-                                .foregroundColor(Color.white)
-                                .multilineTextAlignment(.leading))
-                    }
+                        Text("Thoughts: \(progressCounter) ")
+                            .padding(.horizontal, 25)
+                            .padding(.vertical, 5)
+                            .font(.headline)
+                            .foregroundColor(Color.white)
+                            .multilineTextAlignment(.leading)
+                            .background(Color.white.opacity(0.2))
+                            .cornerRadius(20)
+                            
+                    }.padding(15)
                     
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white)
                             .frame(width: 150, height: 20)
-                            .opacity(0.6)
+                            .opacity(0.3)
                         Slider(
                             value: $speed,
                             in: 0...100,
@@ -131,12 +135,9 @@ struct ContentView: View {
                             .font(.caption2)
                             .foregroundColor(Color.white)
                             .multilineTextAlignment(.center)
-                            .opacity(0.9)
                     }
                     .padding(0.0)
-                    Text("...Or keep going")
-                        .font(.caption)
-                        .foregroundColor(Color.white)
+                    
                     ProgressView(){
                         Text(load)
                             .font(.footnote)
