@@ -12,3 +12,8 @@ Our app is connected via API to ChatGPT for input analysis and to Dall-E for ima
 * [Khushbu Oswal](https://www.linkedin.com/in/khushbu-oswal-5938bb1b4/)
 * [Kylie Lin](https://www.linkedin.com/in/kylie-l-8b162a222/)
 * [Suleman Dawood](https://www.linkedin.com/in/suleman-dawood-397460270/)
+
+To run:
+- Create an account and app with Firebase enabling the Realtime Database, Email Authentication and Storage features. Ensure read/write security rules are updated and download the GoogleServices.plist file and save it in the project.
+- Navigate to OpenAI's website and generate a new API key for use with the app. Create a local Config.plist file in the project and save your API key here with the reference as "GPT".
+- Build the project with dependencies and enjoy!
