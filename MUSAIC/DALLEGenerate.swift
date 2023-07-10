@@ -12,7 +12,11 @@ func DALLEGenerate(prompt: String, completion: @escaping (Result<URL, Error>) ->
     let apiUrl = URL(string: "https://api.openai.com/v1/images/generations")!
 
     // Set your OpenAI API key
-    let apiKey = "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"
+    guard let configPath = Bundle.main.path(forResource: "Config", ofType: "plist"),
+          let config = NSDictionary(contentsOfFile: configPath),
+          let apiKey = config["GPT"] as? String else {
+        fatalError("Failed to load GPT API key from Config.plist")
+    }
 
     // Set the headers with the API key
     var request = URLRequest(url: apiUrl)

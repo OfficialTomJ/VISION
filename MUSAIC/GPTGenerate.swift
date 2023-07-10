@@ -8,7 +8,12 @@
 import Foundation
 
 func generateGPT(prompt: String, completion: @escaping (Result<String, Error>) -> Void) {
-    let apiKey = "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"
+    guard let configPath = Bundle.main.path(forResource: "Config", ofType: "plist"),
+          let config = NSDictionary(contentsOfFile: configPath),
+          let apiKey = config["GPT"] as? String else {
+        fatalError("Failed to load GPT API key from Config.plist")
+    }
+    
     let endpoint = "https://api.openai.com/v1/engines/text-davinci-002/completions"
     let parameters: [String: Any] = [
         "prompt": prompt,
